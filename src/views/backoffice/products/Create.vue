@@ -49,23 +49,11 @@
                         <div class="bg-white dark:bg-gray-800 px-4 py-5 sm:p-6">
                             <div class="grid grid-cols-6 gap-6">
 
-                                <div class="col-span-6 sm:col-span-3">
+                                
+                                <div class="col-span-6 sm:col-span-6">
                                     <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
                                     <input v-model="name" type="text" name="name" id="name"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 </div>
-
-                                <div class="flex items-center justify-between col-span-6 sm:col-span-3 gap-2">
-                                    <div class="w-1/2">
-                                        <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
-                                        <input v-model="price" type="number" name="price" id="price" autocomplete="price" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                    </div>
-
-                                    <div class="w-1/2">
-                                        <label for="sale-price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Sale Price</label>
-                                        <input v-model="sale_price" type="number" name="sale-price" id="sale-price" autocomplete="sale-price" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                    </div>
-                                </div>
-
                                 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="country" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Brand</label>
@@ -83,16 +71,60 @@
                                     </select>
                                 </div>
 
-                                <div class="col-span-6 sm:col-span-3">
-                                    <label for="stock_quantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stock Quantity</label>
-                                    <input v-model="stock_quantity" type="number" name="stock_quantity" id="stock_quantity"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                </div>
-
-                                <div class="col-span-6 sm:col-span-3">
+                                <div class="col-span-6 sm:col-span-6">
                                     <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
                                     <textarea v-model="description" name="description" id="description"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
                                 </div>
                             </div>
+
+                            <div class=" border rounded-md p-2 mt-2 bg-gray-50"> 
+                                <div class="flex items-end gap-6 mb-2" v-for="(product,index) in products" :key="index">
+                                    <div class="w-2/5">
+                                        <label for="reference" class="block text-sm font-medium text-gray-700 dark:text-gray-300">reference</label>
+                                        <input v-model="product.product_code" type="text" name="reference" id="size" placeholder="reference"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    </div>
+
+                                    <div class="w-1/5">
+                                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Size (ml)</label>
+                                        <input v-model="product.name" type="text" name="size" id="size" placeholder="size"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    </div>
+
+                                    <div class="flex items-center justify-between w-1/5 gap-2">
+                                        <div class="w-1/2">
+                                            <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
+                                            <input v-model="product.price" type="number" name="price" id="price" autocomplete="price" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        </div>
+
+                                        <div class="w-1/2">
+                                            <label for="sale-price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Sale Price</label>
+                                            <input v-model="product.sale_price" type="number" name="sale-price" id="sale-price" autocomplete="sale-price" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="w-1/5">
+                                        <label for="stock_quantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stock Quantity</label>
+                                        <input v-model="product.stock_quantity" type="number" name="stock_quantity" id="stock_quantity"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    </div>
+
+                                    <div class="w-1/5 flex items-end gap-2">
+                                        <!-- Add Button -->
+                                        <button 
+                                            @click="add()"
+                                            class="px-3 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 focus:ring-2 focus:ring-green-400">
+                                            Add
+                                        </button>
+
+                                        <!-- Remove Button -->
+                                        <button 
+                                            v-if="products.length > 1"
+                                            @click="remove(index)"
+                                            class="px-3 py-2 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:ring-2 focus:ring-red-400">
+                                            Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div>
                                 <div class="my-2">
                                     <file-pond
@@ -196,13 +228,21 @@
             category_id: yup.number().moreThan(0,'Category is required').required(),
             is_active: yup.boolean().required(),
             description: yup.string().required(),
-            price:yup.number().required(),
-            sale_price:yup.number().required(),
-            stock_quantity:yup.number().required(),
+            // price:yup.number().required(),
+            // sale_price:yup.number().required(),
+            // stock_quantity:yup.number().required(),
         }),
     });
     
-    const [name,  brand_id, category_id, is_active, description, price, sale_price, stock_quantity] = form_create_user.useFieldModel(['name','brand_id','category_id','is_active','description','price','sale_price','stock_quantity']);
+    const [name,  brand_id, category_id, is_active, description] = form_create_user.useFieldModel(['name','brand_id','category_id','is_active','description']);
+
+    const products = ref([{
+        name:'',
+        price:0,
+        sale_price:0,
+        stock_quantity:1,
+        product_code:'',
+    }])
 
     /* Fields and validation end */
 
@@ -214,12 +254,30 @@
         isLoading.value = false
     })
 
+    const add = () => {
+        products.value = [...products.value,{
+            name:'',
+            price:0,
+            sale_price:0,
+            stock_quantity:1,
+            product_code:'',
+        }]
+        console.log('add')
+    }
+
+    const remove = (index) => {
+        products.value.splice(index, 1)
+        console.log('add')
+    }
+
     const store = form_create_user.handleSubmit( async (values) => {
         IsSubmitting.value = true
 
         if(produtImages.value.length){
             values.images = produtImages.value.map((e) => e.source);
         }
+
+        values.products = products.value
 
         let result = await productModel.store(values)
         

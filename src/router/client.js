@@ -20,9 +20,14 @@ export default [
                 component: () => import('@/views/products/List.vue')
             },
             {
-                path:'/cart',
-                name:'cart',
-                component: () => import('@/views/Cart.vue')
+                path:'/checkout',
+                name:'checkout',
+                component: () => import('@/views/Checkout.vue')
+            },
+            {
+                path:'/thank',
+                name:'thank.you',
+                component: () => import('@/views/thankyou.vue')
             }
         ]
     },

@@ -1,7 +1,7 @@
 <template>
     <section
         aria-labelledby="category-heading"
-        class="pt-24 sm:pt-32 xl:mx-auto xl:max-w-7xl xl:px-8"
+        class="pt-10  xl:mx-auto xl:max-w-7xl xl:px-8"
     >
         <div
             class="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0"

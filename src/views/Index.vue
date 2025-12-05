@@ -1,28 +1,46 @@
 <template>
     <!-- Hero section -->
-    <div class="relative bg-gray-900">
-        <div
-            class="relative mx-auto flex max-w-3xl flex-col items-center py-32 px-6 text-center sm:py-64 lg:px-0"
-        >
-            <h1
-                class="text-4xl font-bold tracking-tight text-white lg:text-6xl"
-            >
-                New arrivals are here
-            </h1>
-            <p class="mt-4 text-xl text-white">
-                The new arrivals have, well, newly arrived. Check out the latest
-                options from our summer small-batch release while they're still
-                in stock.
-            </p>
-            <a
-                href="#"
-                class="mt-8 inline-block rounded-md border border-transparent bg-white py-3 px-8 text-base font-medium text-gray-900 hover:bg-gray-100"
-                >Shop New Arrivals</a
-            >
-        </div>
+    <div class="relative mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+        <img src="https://media.vperfumes.com/images/winter-sale-web-eng.webp" class="w-full h-[40vh] rounded-xl" />
     </div>
-
     <main>
+        <div class="mx-auto max-w-7xl px-4  sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4  w-full">
+                <a class="h-full" href="/shop?Gender-13=Women">
+                    <div class="flex place-items-center pr-4 justify-around rounded-2xl relative h-full" style="background-image: url(&quot;https://www.perfumedistri.com/images/bg-pink-vertical.png&quot;); object-fit: cover; background-size: cover; background-position: center center;">
+                        <img alt="Women Perfumes" fetchpriority="high" width="310" height="100" decoding="async" data-nimg="1" class=" md:w-1/2 w-full " srcset="https://www.perfumedistri.com/_next/image?url=%2Fimages%2Fhome-card-image-1.png&w=384&q=75" src="https://www.perfumedistri.com/_next/image?url=%2Fimages%2Fhome-card-image-1.png&w=384&q=75" style="color: transparent;">
+                        <div class="flex flex-col gap-4">
+                            <h2 class="w-full mx-auto text-center text-2xl md:text-base text-white md:static absolute left-1/2 z-10 -translate-x-1/2 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:translate-x-0">All women Fragrances</h2>
+                            <button class="hover:bg-black hover:text-white items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-black bg-white h-[50px] px-4 rounded-lg gap-2 place-items-center md:flex hidden">
+                                View Products 
+                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" class="w-2.5 h-2.5" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="absolute top-0 left-0 w-full h-full bg-black opacity-40 md:hidden rounded-2xl"></div>
+                    </div>
+                </a>
+                <a class="h-full" href="/shop?Gender-13=Men">
+                    <div class="flex place-items-center pr-4 justify-around rounded-2xl relative h-full" style="background-image: url(&quot;https://www.perfumedistri.com/images/bg-blue-horizontal.png&quot;); object-fit: cover; background-size: cover; background-position: center center;">
+                        <img alt="Men Perfumes" fetchpriority="high" width="310" height="105" decoding="async" data-nimg="1" class="-mb-4 md:w-1/2 w-full " srcset="https://www.perfumedistri.com/_next/image?url=%2Fimages%2Fhome-card-image-2.png&w=384&q=75" src="https://www.perfumedistri.com/_next/image?url=%2Fimages%2Fhome-card-image-2.png&w=384&q=75" style="color: transparent;">
+                        <div class="flex flex-col gap-4 my-4">
+                            <h2 class="w-full mx-auto text-center text-2xl md:text-base text-white md:static absolute left-1/2 z-10 -translate-x-1/2 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:translate-x-0">All men Fragrances</h2>
+                            <button class="hover:bg-black hover:text-white items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-black bg-white h-[50px] px-4 rounded-lg gap-2 place-items-center md:flex hidden">
+                                View Products 
+                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" class="w-2.5 h-2.5" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="absolute top-0 left-0 w-full h-full bg-black opacity-40 md:hidden rounded-2xl"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+
         <Categories />
 
         <section
@@ -197,17 +215,17 @@ const navigation = {
 const incentives = [
   {
     name: 'Free shipping',
-    imageSrc: 'https://tailwindui.com/img/ecommerce/icons/icon-shipping-simple.svg',
+    imageSrc: '/tracking.png',
     description: "It's not actually free we just price it into the products. Someone's paying for it, and it's not us.",
   },
   {
     name: '10-year warranty',
-    imageSrc: 'https://tailwindui.com/img/ecommerce/icons/icon-warranty-simple.svg',
+    imageSrc: '/rate.png',
     description: "If it breaks in the first 10 years we'll replace it. After that you're on your own though.",
   },
   {
     name: 'Exchanges',
-    imageSrc: 'https://tailwindui.com/img/ecommerce/icons/icon-exchange-simple.svg',
+    imageSrc: '/badge.png',
     description:
       "If you don't like it, trade it to one of your friends for something of theirs. Don't send it here though.",
   },

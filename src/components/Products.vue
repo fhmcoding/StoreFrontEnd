@@ -8,7 +8,7 @@
                     Trending products
                 </h2>
                 <RouterLink :to='"/products"'
-                    class="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 md:block"
+                    class="hidden text-sm font-semibold  text-[#C1AC6B] hover:text-indigo-500 md:block"
                 >
                     Shop the collection
                     <span aria-hidden="true"> &rarr;</span>

@@ -26,12 +26,12 @@ export const useAuthStore = defineStore('auth', () => {
         }
     })
 
-    async function login(email, password){
+    async function login(phone_number, password){
         try {
             const response = await axios.post(
                 baseUrl+'login',
                 {
-                    email: email,
+                    phone_number: phone_number,
                     password: password,
                 },
                 {

@@ -2,14 +2,20 @@ import { ref ,computed} from 'vue'
 import { defineStore } from 'pinia'
 import axios from "axios"
 
-const baseUrl = `http://127.0.0.1:8000/api/orders`;
+const baseUrl = `http://127.0.0.1:8000/api`;
 
 export const  useCartStore = defineStore('cart',() => {
 
     const cart = ref([])    
 
-    const cartCount = computed(() => {
-        return () => cart.length;
+    const cartCount = computed(() => cart.value.length)
+    const cartTotal = computed(() => {
+        let total = 0;
+        cart.value.forEach((e) => {
+            total += e.price * e.quantity
+        })
+
+        return total
     })
 
     const inCart = computed(() => {
@@ -17,44 +23,61 @@ export const  useCartStore = defineStore('cart',() => {
     })
 
     async function add(product) {
-        if(cart.value.find((item) => item.product_id == product.id) !== undefined){
+        console.log(product)
+        if(cart.value.find((item) => item.product_id == product.product_code) !== undefined){
             increment(product);
             return cart.value;
         }
         cart.value = [...cart.value,{
-            product_id:product.id,
+            product_id:product.product_code,
             quantity:1,
             price:product.price,
             product:product
         }]
+
+        console.log(cart.value)
         return cart.value   
     }
 
-    async function increment(product,quantity = 1){
-        if(cart.value.find((item) => item.product_id == product.id) !== undefined){
-            let indeOf = cart.value.indexOf(cart.value.find((item) => item.product_id == product.id));
-            cart.value[indeOf].quantity = cart.value[indeOf].quantity +  quantity;
-        }
+    function increment(product,quantity = 1){
+        let indeOf = cart.value.indexOf(product);
+        cart.value[indeOf].quantity = cart.value[indeOf].quantity +  quantity;
+        
+        return cart.value
     }
 
-    async function disincrement(product,quantity = 1){
-        if(cart.value.find((item) => item.product_id == product.id) !== undefined){
-            let indeOf = cart.value.indexOf(cart.value.find((item) => item.product_id == product.id));
-            cart.value[indeOf].quantity = cart.value[indeOf].quantity -  quantity;
-            if(cart.value[indeOf].quantity <= 0){
-                remove(product)
-            }
+    function disincrement(product,quantity = 1){
+        let indeOf = cart.value.indexOf(product);
+        cart.value[indeOf].quantity = cart.value[indeOf].quantity -  quantity;
+        if(cart.value[indeOf].quantity <= 0){
+            remove(product)
         }
+
+        return cart.value
     }
 
 
     async function remove(product){
-        if(cart.value.find((item) => item.product_id == product.id) !== undefined){
-            cart.value = cart.value.filter((item) => item.product_id !== product.id);
+        if(cart.value.find((item) => item.product_id == product.product_id) !== undefined){
+            cart.value = cart.value.filter((item) => item.product_id !== product.product_id);
         } 
     }
     
     
 
-    return {cart, cartCount, add, increment, remove, inCart}
+    async function checkout(payload){
+        try {
+            const response = await axios.post(
+                baseUrl+'/checkout',payload
+            );
+
+            console.log(response);
+
+        } catch (error) {
+            
+        }
+        return true;
+    }
+
+    return {cart ,cartCount, cartTotal, checkout, add, increment, disincrement,remove, inCart}
 });

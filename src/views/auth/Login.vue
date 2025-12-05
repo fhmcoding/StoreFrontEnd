@@ -2,15 +2,15 @@
     <div class="flex h-full min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 dark:bg-gray-100">
         <div class="w-full h-full max-w-md space-y-8">
             <div>
-                <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+                <img class="mx-auto h-12 w-auto" src="/logo.png" alt="Your Company">
                 <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
             </div>
             <form class="mt-8 space-y-6" @submit.prevent="submit">
                 <input type="hidden" name="remember" value="true">
                 <div class="-space-y-px rounded-md shadow-sm">
                     <div>
-                        <label for="email-address" class="sr-only">Email address</label>
-                        <input v-model="email"  id="email-address" name="email" type="email" autocomplete="email" required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address">
+                        <label for="phone-number" class="sr-only">Phone Number</label>
+                        <input v-model="phone_number"  id="phone-number" name="phone_number" type="text" autocomplete="phone_number" required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Phone Number">
                     </div>
                     <div>
                         <label for="password" class="sr-only">Password</label>
@@ -54,14 +54,14 @@
     
     const auth = useAuthStore()
    
-    const email = ref('');
+    const phone_number = ref('');
     const password = ref('');
 
     const IsSubmitting = ref(false)
 
     const submit = async () => {
         IsSubmitting.value = true
-        let result = await auth.login(email.value, password.value)
+        let result = await auth.login(phone_number.value, password.value)
         if(! result.status){
             IsSubmitting.value = false
         }

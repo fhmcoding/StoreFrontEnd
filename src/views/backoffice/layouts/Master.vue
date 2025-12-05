@@ -18,8 +18,7 @@
                             </div>
                             </TransitionChild>
                             <div class="flex flex-shrink-0 items-center px-4">
-                                <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
-                                <span class="text-primary font-mono font-bold px-2 text-2xl">SHOP</span>
+                                <img class="h-8 w-auto" src="/logo.png" alt="Your Company" />
                             </div>
                             <div class="mt-5 h-0 flex-1 overflow-y-auto">
                             <nav class="space-y-1 px-2">
@@ -44,10 +43,10 @@
             <div class="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-white pt-5 pl-4 pr-1 dark:bg-gray-800 dark:border-gray-800">
                 <div class="flex flex-shrink-0 items-stretch pl-3 pr-1 mb-2">
                     <div class="flex-none">
-                        <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Unipay" />
+                        <img class="h-8 w-auto" src="/logo.png" alt="Unipay" />
                         
                     </div>
-                    <div class="flex-1"><span v-if="!sidebareMini" class="font-mono font-bold text-2xl tracking-wide text-primary px-2">SHOP</span></div>
+                    <div class="flex-1"><span v-if="!sidebareMini" class="font-mono font-bold text-2xl tracking-wide text-primary px-2"></span></div>
                     <span class="flex-end text-primary text-end dark:text-primary cursor-pointer" v-if="!sidebareMini" @click="sidebare = !sidebare">
                         <ArrowLeftCircleIcon v-if="!sidebareMiniStatus" class="h-9 w-6" aria-hidden="true" />
                         <ArrowRightCircleIcon v-if="sidebareMiniStatus" class="h-9 w-6" aria-hidden="true" />
@@ -83,8 +82,8 @@
             
                         <div>
                             <p class="pl-3 pt-2 pb-2 w-100 leading-none text-right">
-                                <span class="text-sm text-gray-500 font-semibold break-normal dark:text-gray-300">{{ user.name }}</span><br>
-                                <span class="text-xs text-gray-400 dark:text-gray-400">{{ user.email }}</span>
+                                <span class="text-sm text-gray-500 font-semibold break-normal dark:text-gray-300">{{ user.first_name }} {{ user.last_name  }}</span><br>
+                                <span class="text-xs text-gray-400 dark:text-gray-400">{{ user.phone_number }}</span>
                             </p>
                         </div>
         
@@ -92,7 +91,7 @@
                         <Menu as="div" class="relative ml-3">
                             <div>
                                 <MenuButton class="flex max-w-xs items-center rounded-full bg-gray-500 text-white w-9 h-9 text-center justify-center text-sm font-semibold uppercase">
-                                    <span>{{user.name[0] + user.name[user.name.length -1]}}</span>
+                                    <span>{{user.first_name[0] + user.first_name[user.first_name.length -1]}}</span>
                                 </MenuButton>
                             </div>
                             
@@ -101,11 +100,11 @@
                                 <MenuItems class="absolute right-0 z-0 mt-2 w-60 origin-top-right rounded-md bg-white dark:bg-gray-800 dark:border-gray-50 shadow-lg dark:shadow-md dark:shadow-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div class="flex items-center mt-1 p-2">
                                         <div class="flex  items-center rounded-full bg-gray-500 text-white w-11 h-11 mt-1 text-center justify-center text-sm font-semibold uppercase">
-                                            <span>{{user.name[0] + user.name[user.name.length -1]}}</span>
+                                            <span>{{user.first_name[0] + user.first_name[user.first_name.length -1]}}</span>
                                         </div>
                                         <p class="pl-3 pt-2 pb-2 w-100 leading-tight">
-                                            <span class="text-xs text-gray-500 font-semibold break-normal dark:text-gray-200">{{ user.name }} </span><br>
-                                            <span class="text-xs text-gray-400 dark:text-gray-400">{{ user.email }}</span>
+                                            <span class="text-xs text-gray-500 font-semibold break-normal dark:text-gray-200">{{ user.first_name }} {{ user.last_name }} </span><br>
+                                            <span class="text-xs text-gray-400 dark:text-gray-400">{{ user.phone_number }}</span>
                                         </p>
                                     </div>
                                     <hr class="dark:border-gray-600">

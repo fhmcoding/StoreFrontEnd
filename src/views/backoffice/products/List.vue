@@ -39,7 +39,7 @@
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Price</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Sale Price</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Stock Quantity</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Status</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">variations</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Brand</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Category</th>
                         <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900 dark:text-gray-300 text-center">Actions</th>
@@ -57,24 +57,27 @@
                             </div>
                             <div>
                                 <div class="font-normal text-sm text-gray-500 dark:text-gray-400">{{ item.product_code }}</div>
-                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.name }}</div>
+                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.name }} ({{ item.products[0].name }} ml)</div>
                             </div>
                         </td>
                         
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            {{ item.price }}
+                            {{ item.products[0].price }}
     
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            {{ item.sale_price }}
+                            {{ item.products[0].sale_price }}
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            <span>{{item.stock_quantity}}</span>
+                            <span>{{item.products[0].stock_quantity}}</span>
                         </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            <span v-if="item.is_active" class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800 dark:bg-green-200">Active</span>
-                            <span v-if="! item.is_active" class="inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold leading-5 text-yellow-600 dark:bg-yellow-200">Not Active</span>
+
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
+                            <span>{{item.products.length}}</span>
                         </td>
+
+
+                       
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-600 dark:text-gray-300 sm:pl-6">
                             {{item.category !== null ? item.category.name : 'no category' }}
                         </td>

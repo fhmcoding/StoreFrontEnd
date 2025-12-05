@@ -6,7 +6,7 @@
         >
             <div class="mx-auto max-w-2xl lg:max-w-none">
                 <div class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
-                    <TabGroup as="div" class="flex flex-col-reverse">
+                    <TabGroup as="div" class="flex flex-col-reverse p-[20x]">
                         <div
                             class="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none"
                         >
@@ -65,40 +65,36 @@
                                 <h5 class="text-gray-400 font-semibold">{{ productModel.product.category.name }}</h5>
                             </div>
                             <div>
-                                <img :src="productModel.product.brand.image_url" alt="" srcset="">
+                                <img :src="productModel.product.brand.image_url" alt="" srcset="" class="w-[100px] h-[100px]">
                             </div>
                         </div>
 
-                        <div class="mt-3">
-                            <h2 class="sr-only">Product information</h2>
-                            <p class="text-3xl tracking-tight text-gray-900">
-                                {{ productModel.product.price }} {{'MAD'}}
-                            </p>
-                        </div>
+                        <div class="mt-3 border border-gray-200 rounded-md">
+                           <div class="p-2 border-b flex items-center justify-between" v-for="(p,index) in productModel.product.products" :key="index"> 
+                                <span class="text-md">{{ productModel.product.name }} <span class="font-semibold">{{p.name}} </span>  </span>
+                                <div class="flex items-center gap-2">
+                                    <div>
+                                        <span class="font-bold text-primary">{{p.price }} DH</span>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        @click='cartModel.add({...productModel.product,...p,title: `${productModel.product.name} ${p.name}` })'  
+                                        v-show="!cartModel.inCart(p.product_code)" 
+                                        class="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-primary py-2 px-8 text-base font-medium text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
+                                        
+                                    >
+                                        Add to Cart
+                                    </button>
 
-                        <!-- Reviews -->
-                        <div class="mt-3">
-                            <h3 class="sr-only">Reviews</h3>
-                            <div class="flex items-center">
-                                <div class="flex items-center">
-                                    <StarIcon
-                                        v-for="rating in [0, 1, 2, 3, 4]"
-                                        :key="rating"
-                                        :class="[
-                                            productModel.product.rating > rating
-                                                ? 'text-indigo-500'
-                                                : 'text-gray-300',
-                                            'h-5 w-5 flex-shrink-0',
-                                        ]"
-                                        aria-hidden="true"
-                                    />
+                                    <div class="flex items-center " v-if="cartModel.inCart(p.product_code)" >
+                                        <button class="px-3 py-2 bg-gray-200 rounded-l" @click="cartModel.disincrement(cartModel.cart.find((e) => e.product_id == p.product_code))" >–</button>
+                                        <span class="px-4 py-2 bg-gray-100">{{cartModel.cart.find((e) => e.product_id == p.product_code).quantity }}</span>
+                                        <button class="px-3 py-2 bg-gray-200 rounded-r" @click="cartModel.increment(cartModel.cart.find((e) => e.product_id == p.product_code))">+</button>
+                                    </div>
                                 </div>
-                                <p class="sr-only">
-                                    {{ productModel.product.rating }} out of 5
-                                    stars
-                                </p>
-                            </div>
+                           </div>
                         </div>
+
 
                         <div class="mt-6">
                             <h3 class="sr-only">Description</h3>
@@ -109,29 +105,7 @@
                             />
                         </div>
 
-                        <div class="mt-6">
-                            <div class="mt-10 flex">
-                                <button
-                                    type="button"
-                                    @click='cartModel.add(productModel.product)'
-                                    class="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
-                                    v-show="!cartModel.inCart(productModel.product.id)" 
-                                >
-                                    Add to bag
-                                </button>
-
-
-                                <RouterLink
-                                    :to="'/cart'"
-                                    type="button"
-                                    class="flex max-w-xs flex-1 items-center justify-center rounded-md border  border-indigo-600 py-3 px-8 text-base font-medium text-indigo-600 hover:bg-indigo-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
-                                    v-show="cartModel.inCart(productModel.product.id)" 
-                                >
-                                    Go to Cart Page
-                                </RouterLink>
-
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
 

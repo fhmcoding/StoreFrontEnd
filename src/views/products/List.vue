@@ -261,13 +261,17 @@
                             <div
                                 v-for="product in productModel.products"
                                 :key="product.id"
-                                class="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
+                                class="group relative flex flex-col overflow-hidden rounded-lg  bg-white"
                             >
                                <Product :product='product' />
                             </div>
                         </div>
                         <div v-else>
-                            <h1>Is Loading</h1>
+                            
+                            <div class="flex items-center justify-center h-screen">
+                                <div class="w-20 h-20 border-8 border-gray-300 border-t-[#C1AC6B] rounded-full animate-spin"></div>
+                            </div>
+
                         </div>
                     </section>
                 </div>
