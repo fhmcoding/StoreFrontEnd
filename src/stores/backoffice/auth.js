@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import router from '../../router';
 import axios from "axios"
 
-const baseUrl = `http://storeapi.fhmcoding.com/api/auth/`;
+const baseUrl = `https://storeapi.fhmcoding.com/api/auth/`;
 
 export const useAuthStore = defineStore('auth', () => {
 

@@ -2,7 +2,7 @@ import { ref ,computed} from 'vue'
 import { defineStore } from 'pinia'
 import axios from "axios"
 
-const baseUrl = `http://storeapi.fhmcoding.com/api/auth/client/`;
+const baseUrl = `https://storeapi.fhmcoding.com/api/auth/client/`;
 
 export const  useAuthStore = defineStore('auth',() => {
 
