@@ -4,7 +4,7 @@ import { useAuthStore } from './auth';
 import { useAlertStore } from '@/stores/alert';
 import axios from "axios"
 
-const baseUrl = `http://127.0.0.1:8000/api/backoffice/categories`;
+const baseUrl = `http://storeapi.fhmcoding.com/api/backoffice/categories`;
 
 export const  useCategoryStore = defineStore('categories',() => {
 

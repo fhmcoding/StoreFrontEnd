@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 import axios from "axios"
 
-const baseUrl = `http://127.0.0.1:8000/api/brands`;
+const baseUrl = `http://storeapi.fhmcoding.com/api/brands`;
 
 export const  useBrandStore = defineStore('brands',() => {
 
