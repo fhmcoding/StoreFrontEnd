@@ -74,7 +74,9 @@
 
                                 <div class="col-span-6 sm:col-span-6">
                                     <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
-                                    <textarea v-model="description" name="description" id="description"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+                                    <ckeditor :editor="editor" v-model="description" :config='editorConfig'></ckeditor>
+
+                                    <!-- <textarea v-model="description" name="description" id="description"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea> -->
                                 </div>
                             </div>
 
@@ -201,6 +203,8 @@
     import * as yup from 'yup'
     import { IconLoader } from '@tabler/icons-vue'
     import Editor from 'tailwind-editor'
+        import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
     import Alert from '@/components/Alert.vue'
     
     import vueFilePond from "vue-filepond";
@@ -228,7 +232,8 @@
     const IsSubmitting = ref(false)
     const produtImages = ref([])
 
-
+    const editor = ref(ClassicEditor);
+    const editorConfig = ref({})
 
     /* Fields and validation create user start */
 

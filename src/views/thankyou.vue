@@ -22,7 +22,7 @@
   </p>
 
   <!-- Order Info -->
-  <div class="mt-6 bg-white shadow rounded-xl p-4 w-full max-w-sm">
+  <!-- <div class="mt-6 bg-white shadow rounded-xl p-4 w-full max-w-sm">
     <p class="text-gray-700 text-sm">
       Numéro de commande :
       <span class="font-semibold text-gray-900">{{ orderId }}</span>
@@ -32,7 +32,7 @@
       Montant total :
       <span class="font-semibold text-gray-900">{{ total }} MAD</span>
     </p>
-  </div>
+  </div> -->
 
   <!-- Back to Home button -->
   <router-link

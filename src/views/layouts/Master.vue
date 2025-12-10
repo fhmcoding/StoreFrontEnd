@@ -34,7 +34,7 @@
 
     <header class="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
         <nav
-            class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+            class="mx-auto flex max-w-7xl items-center justify-between p-3 lg:px-8"
             aria-label="Global"
         >
             <div class="flex lg:flex-1">
@@ -52,7 +52,7 @@
                     <Bars3Icon class="h-6 w-6" aria-hidden="true" />
                 </button>
             </div>
-            <div class="hidden lg:flex lg:gap-x-12">
+            <div class="hidden lg:flex lg:gap-x-12 items-center">
                 <RouterLink
                     to="/"
                     class="text-sm font-semibold leading-6 text-gray-900"
@@ -66,14 +66,76 @@
                     >Products</RouterLink
                 >
 
-                
-                
-                <div @click="authModel = true" class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">Login</div>
+                <div v-if='auth.user != undefined && auth.user.first_name == undefined' @click="authModel = true"  class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">Login</div>
 
                 <div @click="cartPopUp = true" class="flex items-center gap-1 text-sm font-semibold leading-6 text-gray-900 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                     <span>Cart</span> 
                     <span class="bg-orange-500 text-xs w-6 h-6 font-semibold text-white flex items-center justify-center rounded-full">{{ cartModel.cartCount }}</span>
+                </div>
+
+                <div v-if="auth.user != undefined && auth.user.first_name != undefined"> 
+                    <Menu as="div" class="relative ltr:ml-3 rtl:mr-3 ring-1 ring-inset ring-gray-200 rounded-md p-1">
+                        <div class="">
+                            <MenuButton class="flex max-w-xs items-center rounded-full bg-white text-sm gap-1">
+                                <div>
+                                    <p class="ltr:pl-3 rtl:pr-3 pt-1 pb-1 w-100 leading-tight text-right">
+                                        <span class="text-xs  text-gray-500 font-semibold break-normal dark:text-gray-200">{{ auth.user.first_name }} {{ auth.user.last_name }}</span><br>
+                                        <!-- <span class="text-xs text-gray-400 dark:text-gray-400">{{ customerModel.customer.phone_number }}</span> -->
+                                    </p>
+                                </div>
+                                <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-orange-100">
+                                    <span class="text-xs uppercase font-medium leading-none text-main-color">{{auth.user.first_name[0]}}{{ auth.user.last_name[1] }}</span>
+                                </span>
+                            </MenuButton>
+                        </div>
+                        
+                        <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                            <MenuItems class="absolute z-50 mt-2 w-60 right-0 rounded-md bg-white dark:bg-gray-800 dark:border-gray-50 shadow-lg dark:shadow-md dark:shadow-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <div class="p-2 flex items-center gap-2">
+                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-100">
+                                        <span class="text-base uppercase font-medium leading-none text-main-color">{{auth.user.first_name[0]}}{{ auth.user.last_name[1] }}</span>
+                                    </span>
+                                    <p class="ltr:pl-3 rtl:pr-3 pt-2 pb-2 w-100 leading-tight">
+                                        <span class="text-xs text-gray-500 font-semibold break-normal dark:text-gray-200">{{ auth.user.first_name }} {{ auth.user.last_name }}</span><br>
+                                        <span class="text-xs text-gray-400 dark:text-gray-400">{{ auth.user.phone_number }}</span>
+                                    </p>
+                                </div>
+
+                                <hr class="dark:border-gray-600" role="none">
+
+                                <!-- <div aria-labelledby="headlessui-menu-button-3" id="headlessui-menu-items-5" role="menu" tabindex="0" data-headlessui-state="open">
+                                    <div role="none">
+                                        <router-link to="/profile" class="text-gray-500 group gap-1 flex items-center px-2 py-2 text-xs font-medium dark:text-gray-300 dark:text-gray-200 dark:hover:bg-gray-100 dark:hover:text-secondary" role="none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="text-gray-400 text-xs group-hover:text-gray-500 ltr:mr-3 rtl:ml-3 flex-shrink-0 h-6 w-6 dark:text-gray-300 dark:text-gray-200 dark:hover:bg-gray-100 dark:hover:text-secondary" role="none"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" role="none"></path></svg> 
+                                            {{ 'Profile' }}
+                                        </router-link>
+                                    </div>
+                                </div>
+
+                                <div aria-labelledby="headlessui-menu-button-3" id="headlessui-menu-items-5" role="menu" tabindex="0" data-headlessui-state="open">
+                                    <div role="none">
+                                        <router-link to="/bookings" class="text-gray-500 group gap-1 flex items-center px-2 py-2 text-xs font-medium dark:text-gray-300 dark:text-gray-200 dark:hover:bg-gray-100 dark:hover:text-secondary" role="none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 text-xs group-hover:text-gray-500 ltr:mr-3 rtl:ml-3 flex-shrink-0 h-6 w-6 dark:text-gray-300 dark:text-gray-200 dark:hover:bg-gray-100 dark:hover:text-secondary" aria-hidden="true" role="none"><path d="M15 5l0 2" role="none"></path><path d="M15 11l0 2" role="none"></path><path d="M15 17l0 2" role="none"></path><path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-3a2 2 0 0 0 0 -4v-3a2 2 0 0 1 2 -2" role="none"></path></svg>
+                                            {{ 'Manage Bookings' }}
+                                        </router-link>
+                                    </div>
+                                </div> -->
+
+
+                                <div aria-labelledby="headlessui-menu-button-3" id="headlessui-menu-items-5" role="menu" tabindex="0" data-headlessui-state="open">
+                                    <div role="none">
+                                        <button @click="auth.logout()" class="text-gray-500 group gap-1 flex items-center px-2 py-2 text-xs font-medium dark:text-gray-300 dark:text-gray-200 dark:hover:bg-gray-100 dark:hover:text-secondary" role="none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="text-gray-400 text-xs group-hover:text-gray-500 ltr:mr-3 rtl:ml-3 flex-shrink-0 h-6 w-6 dark:text-gray-300 dark:text-gray-200 dark:hover:bg-gray-100 dark:hover:text-secondary" role="none"><path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9" role="none"></path></svg>
+                                            {{ 'Logout' }}
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </MenuItems>
+                        </transition>
+                    </Menu>
                 </div>
 
                 
@@ -326,7 +388,11 @@
 
                                                 <div class="flex-1 ml-3">
                                                     <h2 class="font-semibold text-sm">{{item.product.title}}</h2>
-                                                    <p class="text-gray-600 text-sm">Price: {{item.price}} MAD</p>
+                                                    <p class="text-gray-600 text-sm" v-if="item.product.offers.length == 0">Price: {{item.price}} MAD</p>
+                                                    <div v-else class="flex items-center gap-2"> 
+                                                        <p class="text-gray-600 text-sm line-through">{{ item.product.price }} MAD</p>
+                                                        <p class="text-gray-800 text-sm font-semibold">{{ item.price }} MAD</p>
+                                                    </div>
 
                                                     <!-- Qty -->
                                                     <div class="flex items-center mt-2">
@@ -342,11 +408,11 @@
                                             <div class="bg-white p-4 mt-2  text-right">
                                                 <p class="text-lg font-semibold">Total : {{cartModel.cartTotal }} MAD</p>
 
-                                                <RouterLink
-                                                    :to="'/checkout'"
-                                                    class="block rounded-sm py-2 text-center mt-2 px-3 text-base font-semibold leading-7 text-white bg-primary"
+                                                <button
+                                                    @click='checkout()'
+                                                    class="block w-full rounded-sm py-2 text-center mt-2 px-3 text-base font-semibold leading-7 text-white bg-primary"
                                                 >Checkout
-                                                </RouterLink>
+                                                </button>
                                             </div>
                                         </div>
 
@@ -385,6 +451,10 @@
 
 <script setup>
 import { ref } from "vue";
+import {  useRouter } from 'vue-router'
+
+
+const router = useRouter()
 import {
     Dialog,
     DialogPanel,
@@ -402,6 +472,9 @@ import {
     TabPanels,
     TransitionChild,
     TransitionRoot,
+    Menu,
+    MenuButton,
+    MenuItems,
 } from "@headlessui/vue";
 import {
     Bars3Icon,
@@ -414,6 +487,7 @@ import {
 import { ChevronDownIcon, PlusIcon } from "@heroicons/vue/20/solid";
 
 import { useCartStore } from "@/stores/client/cart";
+import { useAuthStore } from "@/stores/client/auth"
 
 const footerNavigation = {
   shop: [
@@ -450,11 +524,9 @@ const isLoading = ref(false)
 const IsSubmitting = ref(false)
 const cartPopUp = ref(false)
 const cartModel = useCartStore()
+const auth = useAuthStore()
 
-const submit = () => {
-    isLoading.value = true
-    IsSubmitting.value = true
-}
+
 const registerMode= ref(true)
 const customer = ref({
     first_name:'',
@@ -462,5 +534,34 @@ const customer = ref({
     phone_number:'',
     password:''
 })
+
+const checkout = () => {
+    cartPopUp.value = false
+
+    router.push('/checkout')
+
+}
+const submit = async () => {
+    console.log(auth.user.first_name)
+    // isLoading.value = true
+    // IsSubmitting.value = true
+
+    // // login or register
+    // if(!registerMode.value){
+    //     await auth.login({
+    //         phone_number:customer.value.phone_number,
+    //         password:customer.value.password
+    //     });
+    // }
+
+    // else {
+    //     await auth.register(customer.value);
+    // }
+
+    // isLoading.value = false
+    // IsSubmitting.value = false
+    // authModel.value = false
+}
+
 
 </script>

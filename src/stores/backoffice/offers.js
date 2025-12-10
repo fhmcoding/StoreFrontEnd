@@ -4,12 +4,11 @@ import { useAuthStore } from './auth';
 import { useAlertStore } from '@/stores/alert';
 import axios from "axios"
 
-const baseUrl = `http://127.0.0.1:8000/api/backoffice/products`;
+const baseUrl = `http://127.0.0.1:8000/api/backoffice/offers`;
 
-export const  useProductStore = defineStore('products',() => {
+export const  useOfferStore = defineStore('offers',() => {
 
-    const products = ref([])    
-    const product = ref('')
+    const offers = ref([])    
 
     const pagination = ref('')
     const page = ref(1)
@@ -19,30 +18,12 @@ export const  useProductStore = defineStore('products',() => {
     const alert = useAlertStore()
     const auth = useAuthStore()
 
-    async function getList(){
-        try {
-            const response = await axios.get(
-                baseUrl+'/list',
-                {
-                    headers: {
-                        "Accept": "application/json",
-                        "Authorization": `Bearer ${auth.token}`
-                    },
-                }
-            );
-            this.products = response.data.data;
-            this.pagination = response.data.meta;
-
-        } catch (error) {
-            console.log(error);
-            console.log('get users error')
-        }
-    }
+     
 
     async function getAll(){
         try {
             const response = await axios.get(
-                baseUrl+'?include=brand,category'+'&per_page='+per_page.value+'&page='+page.value,
+                baseUrl+'?include=productsCount'+'&per_page='+per_page.value+'&page='+page.value,
                 {
                     headers: {
                         "Accept": "application/json",
@@ -50,7 +31,7 @@ export const  useProductStore = defineStore('products',() => {
                     },
                 }
             );
-            this.products = response.data.data;
+            this.offers = response.data.data;
             this.pagination = response.data.meta;
 
         } catch (error) {
@@ -58,27 +39,12 @@ export const  useProductStore = defineStore('products',() => {
         }
     }
 
-    async function getById(id){
-        try {
-            const response = await axios.get(
-                baseUrl+'/'+id+'?include=category,brand,images',
-                {
-                headers: {
-                    "Accept": "application/json",
-                    "Authorization": `Bearer ${auth.token}`
-                },
-                }
-            );
-            this.product = response.data
-        } catch (error) {
-            console.log('get users error')
-        }
-    }
+    async function store(offer){
+        console.log(offer)
 
-    async function store(product){
         try {
             const response = await axios.post(
-                baseUrl, product,
+                baseUrl, offer,
                 {
                     headers: {
                         "Accept": "application/json",
@@ -86,12 +52,13 @@ export const  useProductStore = defineStore('products',() => {
                     },
                 }
             );
-            alert.success("Product Created Successfully", null, "modal", 3000)
+            alert.success("Offer Created Successfully", null, "modal", 3000)
             return { status: true}
         } catch (error) {
             return { status: false }
         }
     }
+
 
     async function destroy(id){
         try {
@@ -104,7 +71,7 @@ export const  useProductStore = defineStore('products',() => {
                     },
                 }
             );
-            alert.success("Product Deleted Successfully", null, "modal", 3000)
+            alert.success("Offer Deleted Successfully", null, "modal", 3000)
             return { status: true}
 
         } catch (error) {
@@ -112,29 +79,11 @@ export const  useProductStore = defineStore('products',() => {
         }
     }
 
-    async function removeImge(id){
-        try {
-            const response = await axios.delete(
-                baseUrl + '/image/' + id,
-                {
-                    headers: {
-                        "Accept": "application/json",
-                        "Authorization": `Bearer ${auth.token}`
-                    },
-                }
-            );
-            alert.success("Product Image Deleted Successfully", null, "modal", 3000)
-            return { status: true}
 
-        } catch (error) {
-            return { status: false }
-        }
-    }
-
-    async function update(id, product){
+    async function update(id, offer){
         try {
             const response = await axios.put(
-                baseUrl + '/' + id,product,
+                baseUrl + '/' + id,offer,
                 {
                     headers: {
                         "Accept": "application/json",
@@ -142,7 +91,7 @@ export const  useProductStore = defineStore('products',() => {
                     },
                 }
             );
-            alert.success("Product Updated Successfully", null, "modal", 3000)
+            alert.success("Offer Updated Successfully", null, "modal", 3000)
             return { status: true}
 
         } catch (error) {
@@ -151,6 +100,25 @@ export const  useProductStore = defineStore('products',() => {
     }
 
 
+    async function deleteProduct(offer_id,product_id) {
+        try {
+            const response = await axios.delete(
+                baseUrl + '/' + offer_id + '/delete_product/' + product_id,
+                {
+                    headers: {
+                        "Accept": "application/json",
+                        "Authorization": `Bearer ${auth.token}`
+                    },
+                }
+            );
+            alert.success("Offer Product Deleted Successfully", null, "modal", 3000)
+            return { status: true}
 
-    return {product, products, pagination, page, per_page, getList,getAll, getById, store, destroy, update, removeImge}
+        } catch (error) {
+            return { status: false }
+        }
+    }
+
+
+    return {offers, pagination, page, per_page, getAll, store, destroy, update, deleteProduct}
 });

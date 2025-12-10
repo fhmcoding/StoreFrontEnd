@@ -188,9 +188,11 @@
         { name: 'Roles', to: '/backoffice/roles', icon: KeyIcon, current: false, display: auth.permissions.search('role-list') > 1 },
         { name: 'Permissions', to: '/backoffice/permissions', icon: AdjustmentsHorizontalIcon, current: false, display: auth.permissions.search('permission-list') > 1 },
         { name: 'Brands', to: '/backoffice/brands', icon: SparklesIcon, current: false, display: auth.permissions.search('brand-list') > 1 },
+        { name: 'Offers', to: '/backoffice/offers', icon: SparklesIcon, current: false, display: auth.permissions.search('offer-list') > 1 },
         { name: 'Categories', to: '/backoffice/categories', icon: SquaresPlusIcon, current: false, display: auth.permissions.search('category-list') > 1 },
         { name: 'Products', to: '/backoffice/products', icon: ArchiveBoxIcon, current: false, display: auth.permissions.search('product-list') > 1 },
-        { name: 'Orders', to: '/backoffice/orders', icon: ShoppingCartIcon, current: false, display: auth.permissions.search('order-list') > 1 }
+        { name: 'Orders', to: '/backoffice/orders', icon: ShoppingCartIcon, current: false, display: auth.permissions.search('order-list') > 1 },
+
     ])
 
     const userNavigation = [

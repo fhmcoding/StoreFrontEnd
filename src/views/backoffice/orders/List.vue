@@ -34,6 +34,7 @@
                     <tr class="dark:border-gray-700">
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 dark:text-gray-300">#</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Customer</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">User</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Total</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Status</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Products</th>
@@ -51,8 +52,15 @@
                         </td>
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                             <div>
-                                <div class="font-normal text-sm text-gray-500 dark:text-gray-400">{{ item.customer.name }}</div>
-                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.customer.phone }}</div>
+                                <div class="font-normal text-sm text-gray-500 dark:text-gray-400">{{item.customer !== null && item.customer.first_name !== undefined ? `${item.customer.first_name} ${item.customer.last_name}` : '-'  }}</div>
+                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.customer !== null && item.customer.phone_number !== undefined ? `${item.customer.phone_number || '-' }` : '-'  }}</div>
+                            </div>
+                        </td>
+
+                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                            <div>
+                                <div class="font-normal text-sm text-gray-500 dark:text-gray-400">{{item.user !== null && item.user.first_name !== undefined ? `${item.user.first_name} ${item.user.last_name}` : '-'  }}</div>
+                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.user !== null && item.user.phone_number !== undefined ? `${item.user.phone_number || '-' }` : '-'  }}</div>
                             </div>
                         </td>
 
@@ -61,8 +69,12 @@
                         </td>
                         
                         <td class="whitespace-nowrap px-3 py-4 text-sm ">
-                            <span  :class="'inline-flex rounded-full  px-2 text-xs font-semibold leading-5 '+ statusClass[item.status] ">{{item.status.replace('_',' ')}}</span>
-                            
+                            <span @click="showStatusHistory(item)"  :class="'inline-flex rounded-full cursor-pointer gap-2 items-center  px-2 py-1 text-xs font-semibold leading-5 '+ statusClass[item.status] ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                
+                                {{item.status.replace('_',' ')}}
+                                
+                            </span>
                         </td>
                         
                         
@@ -107,6 +119,8 @@
     const alertModel = useAlertStore()
     const orderModel = useOrderStore()
     const isLoading = ref(true)
+    const statusHistoryModel = ref(false)
+    const selectedOrder  = ref(null)
 
     const statusClass = {
         pending:'bg-indigo-500 text-white',
@@ -128,6 +142,11 @@
     }
 
 
+    function showStatusHistory(order){
+        selectedOrder.value = order
+        statusHistoryModel.value = true;
+        
+    }
 
     watch(alertModel, async () => {
         if(alertModel.alert && alertModel.alert.callback && alertModel.alert.confirm){

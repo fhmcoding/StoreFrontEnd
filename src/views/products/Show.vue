@@ -74,7 +74,12 @@
                                 <span class="text-md">{{ productModel.product.name }} <span class="font-semibold">{{p.name}} </span>  </span>
                                 <div class="flex items-center gap-2">
                                     <div>
-                                        <span class="font-bold text-primary">{{p.price }} DH</span>
+                                        <span class="font-bold text-primary" v-if="p.offers.length == 0">{{p.price }} DH</span> 
+                                        <span v-else class="grid text-end">
+                                            <span class="font-semibold text-gray-600 line-through">{{ p.price }}</span>
+                                            <span class="font-bold text-primary" >{{p.offers[0].pivot.price }} DH</span> 
+
+                                        </span>
                                     </div>
                                     <button
                                         type="button"

@@ -80,6 +80,10 @@
             >
                 Order Details
             </h1>
+
+            <div class="flex items-center gap-2"> 
+                <button type="button" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-500 border hover:bg-gray-50" @click="changeStatusModel = true">Modifer</button>
+            </div>
         </div>
 
         <hr class="dark:border-gray-600 hidden md:block" />
@@ -90,12 +94,12 @@
                 <section aria-labelledby="cart-heading" class="lg:col-span-7">
                     <div class="flex items-center justify-between">
                         <h5>Order Reference</h5>
-                        <h4>{{orderModel.order.order_ref}}</h4>
+                        <h4> {{10000 + orderModel.order.id}}</h4>
                     </div>
                     <div class="flex items-center justify-between">
                         <h5>Order Status</h5>
                         <h4>{{orderModel.order.status}}</h4>
-                    </div>
+                    </div> 
                     <div class="flex items-center justify-between">
                         <h5>Placed At</h5>
                         <h4>{{formatDate(orderModel.order.created_at)}}</h4>
@@ -103,7 +107,7 @@
 
                     <ul
                         role="list"
-                        class="divide-y divide-gray-200 "
+                        class="divide-y divide-gray-200 mt-2 "
                     >
                         <li
                             v-for="item in orderModel.order.products"
@@ -134,17 +138,18 @@
                                                     "
                                                     class=" font-semibold text-gray-800 hover:text-gray-800"
                                                     >{{
-                                                        item.name
-                                                    }}</RouterLink
+                                                        item.product.name
+                                                    }} - {{ item.name }}</RouterLink
                                                 >
                                             </h3>
                                         </div>
-                                        
-                                        <p
-                                            class="mt-1 text-sm font-medium text-gray-900"
-                                        >
-                                            {{ item.pivot.price }} x  {{ item.pivot.quantity}}
-                                        </p>
+                                        <p class="mt-1 text-sm font-semibold text-gray-900" v-if="item.pivot.original_price == item.pivot.price ">{{ item.pivot.price }}</p> 
+                                        <div v-else class="flex items-center gap-2">
+                                            <p class="mt-1 text-sm font-meduim line-through text-gray-700" >{{ item.pivot.original_price }}</p> 
+                                            <p class="mt-1 text-sm font-semibold text-gray-900" >{{ item.pivot.price }}</p> 
+                                        </div>
+
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -216,6 +221,71 @@
             </form>
         </div>
     </div>
+
+     <TransitionRoot as="template" :show="changeStatusModel">
+        <Dialog as="div" class="relative z-10" >
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </TransitionChild>
+                
+            <div class="fixed inset-0 z-10 overflow-y-auto w-max-full sm:w-full">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 sm:w-full">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-md dark:bg-gray-800 bg-white px-4 pt-5 pb-3 text-left shadow-xl transition-all sm:my-8 w-full max-w-full md:max-w-3xl sm:p-6 ">
+                            <div class="border-b-2 border-gray-200 w-full py-2 mb-7 text-gray-500 text-lg">
+                                Modifer Order : {{10000 + orderModel.order.id}}
+                            </div>   
+
+
+                            <div class="mb-2">
+                                <label for="location" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+                                <div class="mt-2 grid grid-cols-1">
+                                    <select id="location" v-model="status" name="location" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
+                                        <option>-----select----</option>
+                                        <option value="pending">pending</option>
+                                        <option value="confirmed">confirmed</option>
+                                        <option value="in_transit">in transit</option>
+                                        <option value="on_hold">on hold</option>
+                                        <option value="delivered">delivered</option>
+                                        <option value="returned">returned</option>
+                                        <option value="cancelled">cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="user-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Remark Address</label>
+                                <textarea v-model="remark" type="text" name="title" id="user-title" autocomplete="given-name" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+                            </div>
+
+                            <div>
+                                <label for="user_note" class="block text-sm font-medium text-gray-700 dark:text-gray-300">User Note</label>
+                                <textarea v-model="user_note" type="text" name="user_note" id="user_note" autocomplete="given-name" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+                            </div>
+
+
+                            <div class="mt-9 flex flex-row w-full content-center justify-center items-center space-x-2">
+                                <button :disabled="IsSubmitting" @click="changeStatusModel = false"  type="button" class="button inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-xs sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                    Cancel
+                                </button>
+                                <button type="submit" @click="update()" :disabled="IsSubmitting" class="inline-flex bg-primary w-full justify-center rounded-md border border-transparent px-4 py-2 mx-1 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-xs sm:text-sm sm:w-auto">
+                                    <span v-if="IsSubmitting" class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                                        <Cog6ToothIcon class="h-5 w-5 text-white" aria-hidden="true" />
+                                    </span>
+                                    Update Offer
+                                </button>
+                            </div>
+
+
+
+                            
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
+
 </template>
 
 <script setup>
@@ -261,7 +331,7 @@ const orderModel = useOrderStore()
 const isLoading = ref(true)
 const route = useRoute()
 const router = useRouter()
-
+const IsSubmitting = ref(false)
 
 const statusClass = {
     pending:'bg-indigo-500 text-white',
@@ -273,13 +343,36 @@ const statusClass = {
     in_transit:'bg-blue-500 text-white',
 }
 
+const changeStatusModel = ref(false)
+const status = ref('')
+const remark = ref('')
+const user_note = ref('')
+
 const formatDate = (value) => {
     return moment(value).format('DD MMM YYYY, hh:mm A')
+}
+
+const update = async () => {
+    console.log('update');
+    IsSubmitting.value = true;
+    await orderModel.update(route.params.id,{
+        status:status.value,
+        address:remark.value,
+        user_notes:user_note.value
+    })
+
+    IsSubmitting.value = false
+
+
 }
 onMounted( async() => {
     console.log(route.params.id);
     await orderModel.getById(route.params.id)
     isLoading.value = false
+
+    status.value = orderModel.order.status
+    user_note.value =  orderModel.order.user_notes
+    remark.value = orderModel.order.remark
 })
 
 </script>

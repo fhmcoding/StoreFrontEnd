@@ -30,8 +30,10 @@
                     </div>    
                     <div class="mt-6">
                         <button @click="submit()" class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
-                            <span v-if="IsSubmitting">loading...</span>
-                            <span>Checkout</span>
+                            <span v-if="IsSubmitting">
+                                loading...
+                            </span> 
+                            <span v-else>Checkout</span>
                         </button>
                     </div>
                 </div>            
@@ -59,7 +61,14 @@
                                             <RouterLink :to="'/poducts/'+item.product.id" class="font-medium text-gray-700 hover:text-gray-800">{{ item.product.title }}</RouterLink>
                                         </h3>
                                     </div>
-                                    <p class="mt-1 text-sm font-semibold text-gray-900">{{ item.price }}</p>
+                                    <p class="mt-1 text-sm font-semibold text-gray-900" v-if="item.product.offers.length == 0 ">{{ item.price }}</p> 
+                                    <div v-else class="flex items-center gap-2">
+                                       <p class="mt-1 text-sm font-meduim line-through text-gray-700" >{{ item.product.price }}</p> 
+
+                                        <p class="mt-1 text-sm font-semibold text-gray-900" >{{ item.price }}</p> 
+
+                                    </div>
+
                                 </div>
 
                                 <div class="mt-4 sm:mt-0 sm:pr-9">
@@ -171,9 +180,7 @@ const customer = ref({
 
 const submit = async () => {
     IsSubmitting.value = true
-    console.log('submit');
-    console.log(cartModel.cart)
-
+    
     await cartModel.checkout({
         customer:customer.value,
         products:cartModel.cart

@@ -57,19 +57,19 @@
                             </div>
                             <div>
                                 <div class="font-normal text-sm text-gray-500 dark:text-gray-400">{{ item.product_code }}</div>
-                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.name }} ({{ item.products[0].name }} ml)</div>
+                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.name }} ({{ item.products.length > 0 ?  item.products[0].name : '' }} ml)</div>
                             </div>
                         </td>
                         
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            {{ item.products[0].price }}
+                            {{item.products.length >0?  item.products[0].price : 0 }}
     
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            {{ item.products[0].sale_price }}
+                            {{ item.products.length > 0 ? item.products[0].sale_price : '-' }}
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            <span>{{item.products[0].stock_quantity}}</span>
+                            <span v-if='item.products.length > 0'>{{item.products[0].stock_quantity}}</span>
                         </td>
 
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">

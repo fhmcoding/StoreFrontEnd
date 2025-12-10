@@ -76,6 +76,14 @@ export default [
                 beforeEnter: [ hasPermission ],
             },
             {
+                path:'offers',
+                component:() => import('@/views/backoffice/offers/List.vue'),
+                meta:{
+                    permission: "offer-list",
+                },
+                beforeEnter: [ hasPermission ],
+            },
+            {
                 path:'categories',
                 component:() => import('@/views/backoffice/categories/Index.vue'),
                 meta:{
