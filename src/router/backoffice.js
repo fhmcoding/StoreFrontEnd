@@ -77,7 +77,7 @@ export default [
             },
             {
                 path:'offers',
-                component:() => import('@/views/backoffice/offers/List.vue'),
+                component:() => import('@/views/backoffice/offers/list.vue'),
                 meta:{
                     permission: "offer-list",
                 },
