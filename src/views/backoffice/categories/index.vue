@@ -167,7 +167,8 @@
                                         <label for="user-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category Name</label>
                                         <input v-model="name" type="text" name="name" id="user-name" autocomplete="given-name" placeholder="Category Name" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                     </div>
-                                    <div class="col-span-12 my-2">
+                                    <div class="col-span-12 my-2"> 
+                                        
                                         <file-pond
                                             name="file"
                                             ref="pond"
