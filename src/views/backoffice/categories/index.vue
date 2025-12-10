@@ -109,7 +109,7 @@
                                             v-bind:allow-multiple="false"
                                             accepted-file-types="image/jpeg, image/png, image/svg"
                                             :server="{
-                                                url:'http://127.0.0.1:8000',
+                                                url:'https://storeapi.fhmcoding.com',
                                                 process: {
                                                     url:'/api/backoffice/upload_images',
                                                     method: 'POST',
@@ -175,7 +175,7 @@
                                             v-bind:allow-multiple="false"
                                             accepted-file-types="image/jpeg, image/png, image/svg"
                                             :server="{
-                                                url:'http://127.0.0.1:8000',
+                                                url:'https://storeapi.fhmcoding.com',
                                                 process: {
                                                     url:'/api/backoffice/upload_images',
                                                     method: 'POST',
