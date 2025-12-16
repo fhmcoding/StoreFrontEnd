@@ -47,8 +47,8 @@
                     <tr v-else v-for="item in userModel.users" :key="item.email">
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                             <div class="ml-4">
-                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.name }}</div>
-                                <div class="font-normal text-gray-500 dark:text-gray-400">{{ item.email }}</div>
+                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.first_name }} {{ item.last_name }}</div>
+                                <div class="font-normal text-gray-500 dark:text-gray-400">{{ item.phone_number }}</div>
                             </div>
                         </td>
                         
