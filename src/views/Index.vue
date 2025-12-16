@@ -39,9 +39,9 @@
             </div>
         </div>
 
+         <Products />
 
-
-        <Categories />
+        <!-- <Categories /> -->
 
         <section
             aria-labelledby="social-impact-heading"
@@ -50,7 +50,7 @@
             <div class="relative overflow-hidden rounded-lg">
                 <div class="absolute inset-0">
                     <img
-                        src="https://tailwindui.com/img/ecommerce-images/home-page-01-feature-section-01.jpg"
+                        src="/pexels-valeriya-965989.webp"
                         alt=""
                         class="h-full w-full object-cover object-center"
                     />
@@ -85,7 +85,7 @@
             </div>
         </section>
 
-        <Products />
+       
 
         <div class="bg-white">
             <div class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">

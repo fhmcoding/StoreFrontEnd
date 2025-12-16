@@ -61,7 +61,7 @@
                 >
 
                 <RouterLink
-                    :to="'products'"
+                    :to="'/products'"
                     class="text-sm font-semibold leading-6 text-gray-900"
                     >Products</RouterLink
                 >
