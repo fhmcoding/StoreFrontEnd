@@ -7,6 +7,24 @@ module.exports = {
   ],
   theme: {
     extend: {
+        keyframes: {
+            whatsappMove: {
+          "0%": { transform: "translateX(0)" },
+          "25%": { transform: "translateX(-14px)" },
+          "50%": { transform: "translateX(0)" },
+          "75%": { transform: "translateX(-14px)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        floatX: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "50%": { transform: "translateX(-12px)" },
+        },
+      },
+      animation: {
+        "float-x": "floatX 3s ease-in-out infinite",
+        "whatsapp-move": "whatsappMove 2.2s ease-in-out infinite",
+
+      },
       colors: {
         'primary': '#9c8749',
         'secondary': '#625f6e',

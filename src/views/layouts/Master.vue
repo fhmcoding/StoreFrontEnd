@@ -65,13 +65,13 @@
                     class="text-sm font-semibold leading-6 text-gray-900"
                     >Products</RouterLink
                 >
-
-                <div v-if='auth.user != undefined && auth.user.first_name == undefined' @click="authModel = true"  class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">Login</div>
+                <!-- v-if='auth.user != undefined && auth.user.first_name == undefined' -->
+                <div  @click="authModel = true"  class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">Login</div>
 
                 <div @click="cartPopUp = true" class="flex items-center gap-1 text-sm font-semibold leading-6 text-gray-900 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                     <span>Cart</span> 
-                    <span class="bg-orange-500 text-xs w-6 h-6 font-semibold text-white flex items-center justify-center rounded-full">{{ cartModel.cartCount }}</span>
+                    <span v-if='cartModel.cartCount > 0' class="bg-orange-500 text-xs w-6 h-6 font-semibold text-white flex items-center justify-center rounded-full">{{ cartModel.cartCount }}</span>
                 </div>
 
                 <div v-if="auth.user != undefined && auth.user.first_name != undefined"> 
@@ -104,7 +104,7 @@
 
                                 <hr class="dark:border-gray-600" role="none">
 
-                                <!-- <div aria-labelledby="headlessui-menu-button-3" id="headlessui-menu-items-5" role="menu" tabindex="0" data-headlessui-state="open">
+                                <div aria-labelledby="headlessui-menu-button-3" id="headlessui-menu-items-5" role="menu" tabindex="0" data-headlessui-state="open">
                                     <div role="none">
                                         <router-link to="/profile" class="text-gray-500 group gap-1 flex items-center px-2 py-2 text-xs font-medium dark:text-gray-300 dark:text-gray-200 dark:hover:bg-gray-100 dark:hover:text-secondary" role="none">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="text-gray-400 text-xs group-hover:text-gray-500 ltr:mr-3 rtl:ml-3 flex-shrink-0 h-6 w-6 dark:text-gray-300 dark:text-gray-200 dark:hover:bg-gray-100 dark:hover:text-secondary" role="none"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" role="none"></path></svg> 
@@ -113,7 +113,7 @@
                                     </div>
                                 </div>
 
-                                <div aria-labelledby="headlessui-menu-button-3" id="headlessui-menu-items-5" role="menu" tabindex="0" data-headlessui-state="open">
+                                <!-- <div aria-labelledby="headlessui-menu-button-3" id="headlessui-menu-items-5" role="menu" tabindex="0" data-headlessui-state="open">
                                     <div role="none">
                                         <router-link to="/bookings" class="text-gray-500 group gap-1 flex items-center px-2 py-2 text-xs font-medium dark:text-gray-300 dark:text-gray-200 dark:hover:bg-gray-100 dark:hover:text-secondary" role="none">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 text-xs group-hover:text-gray-500 ltr:mr-3 rtl:ml-3 flex-shrink-0 h-6 w-6 dark:text-gray-300 dark:text-gray-200 dark:hover:bg-gray-100 dark:hover:text-secondary" aria-hidden="true" role="none"><path d="M15 5l0 2" role="none"></path><path d="M15 11l0 2" role="none"></path><path d="M15 17l0 2" role="none"></path><path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-3a2 2 0 0 0 0 -4v-3a2 2 0 0 1 2 -2" role="none"></path></svg>
@@ -447,6 +447,52 @@
             </Dialog>
     </TransitionRoot>
 
+    <a
+    :href="whatsappUrl"
+    target="_blank"
+    rel="noopener"
+    class="fixed bottom-6 right-6 z-50
+           flex items-center gap-3
+           px-5 py-3 rounded-full
+           bg-[#25D366]
+           text-white font-semibold
+           shadow-lg
+           hover:shadow-xl
+           hover:scale-105
+           transition-all duration-300
+           animate-float-x "
+  >
+    <span class="relative">
+      <ChatBubbleOvalLeftEllipsisIcon class="w-6 h-6" />
+
+      <!-- Pulse ring -->
+      <span
+        class="absolute inset-0 rounded-full
+               bg-[#25D366]
+               opacity-40 blur
+               animate-ping">
+      </span>
+    </span>
+
+    <span class="hidden sm:inline">+212681495580</span>
+  </a>
+    
+   <div class="bg-white w-full fixed bottom-0 left-0 block lg:hidden xl:hidden
+   
+   
+   p-4 mt-2  text-right" v-if="cartModel.cartCount > 0">
+        <div class="flex w-full items-center justify-between">
+            <p class="text-lg font-semibold">Total :</p>
+            <p class="text-lg font-semibold">{{cartModel.cartTotal }} MAD</p>
+        </div>
+
+        <button
+            @click='checkout()'
+            class="block w-full rounded-sm py-2 text-center mt-2 px-3 text-base font-semibold leading-7 text-white bg-primary"
+        >Checkout
+        </button>
+    </div>
+
 </template>
 
 <script setup>
@@ -488,6 +534,12 @@ import { ChevronDownIcon, PlusIcon } from "@heroicons/vue/20/solid";
 
 import { useCartStore } from "@/stores/client/cart";
 import { useAuthStore } from "@/stores/client/auth"
+import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/vue/24/solid";
+
+const phone = "212600000000"; // Morocco format (no +)
+const message = encodeURIComponent("Hello, I need some help");
+
+const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
 
 const footerNavigation = {
   shop: [
@@ -542,25 +594,25 @@ const checkout = () => {
 
 }
 const submit = async () => {
-    console.log(auth.user.first_name)
-    // isLoading.value = true
-    // IsSubmitting.value = true
+    // console.log(auth.user.first_name)
+    isLoading.value = true
+    IsSubmitting.value = true
 
-    // // login or register
-    // if(!registerMode.value){
-    //     await auth.login({
-    //         phone_number:customer.value.phone_number,
-    //         password:customer.value.password
-    //     });
-    // }
+    // login or register
+    if(!registerMode.value){
+        await auth.login({
+            phone_number:customer.value.phone_number,
+            password:customer.value.password
+        });
+    }
 
-    // else {
-    //     await auth.register(customer.value);
-    // }
+    else {
+        await auth.register(customer.value);
+    }
 
-    // isLoading.value = false
-    // IsSubmitting.value = false
-    // authModel.value = false
+    isLoading.value = false
+    IsSubmitting.value = false
+    authModel.value = false
 }
 
 

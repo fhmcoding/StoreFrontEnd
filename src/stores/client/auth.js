@@ -80,7 +80,35 @@ export const  useAuthStore = defineStore('auth',() => {
     }
 
 
+    async function update(payload){
+        try {
+            const response = await axios.put(
+                baseUrl+'update',
+                payload,
+                {
+                    headers: {
+                        "Accept": "application/json",
+                        "Authorization":`Bearer ${localStorage.getItem('token')}`
+                    },
+                }
+            );
+          
+            this.user = response.data.user;
+            
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            
+           
 
-    return { user, token, logout , login, register}
+            return { status: false }
+
+        } catch (error) {
+
+            return { status: false }
+        }
+    }
+
+
+
+    return { user, token, logout , login, register, update}
 
 });

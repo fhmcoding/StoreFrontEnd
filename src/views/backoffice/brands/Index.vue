@@ -188,7 +188,7 @@
                                             v-bind:files="newBrandLogo"
                                             @processfile="handleFilePondProcessfile"
                                             />
-                                    </div>
+                                    </div>   
                                 </div>
                                 <div class="mt-9 flex flex-row w-full content-center justify-center items-center space-x-2">
                                     <button :disabled="IsSubmitting" @click="editBrandModal = false; brandModel.clear()" type="button" class="button inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-xs sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">

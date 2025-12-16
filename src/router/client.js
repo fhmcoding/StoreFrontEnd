@@ -28,6 +28,11 @@ export default [
                 path:'/thank',
                 name:'thank.you',
                 component: () => import('@/views/thankyou.vue')
+            },
+             {
+                path:'/profile',
+                name:'profile',
+                component: () => import('@/views/Profile.vue')
             }
         ]
     },

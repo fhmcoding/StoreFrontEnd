@@ -72,7 +72,7 @@
                         <div class="mt-3 border border-gray-200 rounded-md">
                            <div class="p-2 border-b flex items-center justify-between" v-for="(p,index) in productModel.product.products" :key="index"> 
                                 <span class="text-md">{{ productModel.product.name }} <span class="font-semibold">{{p.name}} </span>  </span>
-                                <div class="flex items-center gap-2">
+                                <div class="grid xl:flex lg:flex text-center items-center gap-2">
                                     <div>
                                         <span class="font-bold text-primary" v-if="p.offers.length == 0">{{p.price }} DH</span> 
                                         <span v-else class="grid text-end">
@@ -85,10 +85,10 @@
                                         type="button"
                                         @click='cartModel.add({...productModel.product,...p,title: `${productModel.product.name} ${p.name}` })'  
                                         v-show="!cartModel.inCart(p.product_code)" 
-                                        class="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-primary py-2 px-8 text-base font-medium text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
+                                        class="flex max-w-xs text-sm flex-1 items-center justify-center rounded-md border border-transparent bg-primary py-2 px-8 xl:text-base lg:text-base font-medium text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
                                         
                                     >
-                                        Add to Cart
+                                        Ajouter
                                     </button>
 
                                     <div class="flex items-center " v-if="cartModel.inCart(p.product_code)" >
@@ -137,6 +137,53 @@
                 </section>
             </div>
         </main>
+
+        <div class="mx-auto max-w-7xl sm:px-6 sm:pt-16 lg:px-8" v-else> 
+            <div class="mx-auto max-w-2xl lg:max-w-none">
+                <!--- LOADING  --->
+                <div class="animate-pulse">
+                    <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
+
+                    <!-- Image skeleton -->
+                    <div>
+                        <div class="bg-gray-200 rounded-lg h-[420px] w-full"></div>
+
+                        <div class="grid grid-cols-4 gap-4 mt-4">
+                        <div
+                            v-for="i in 4"
+                            :key="i"
+                            class="bg-gray-200 h-20 rounded"
+                        ></div>
+                        </div>
+                    </div>
+
+                    <!-- Product info skeleton -->
+                    <div class="space-y-6 mt-10 lg:mt-0">
+                        <div class="bg-gray-200 h-8 w-3/4 rounded"></div>
+                        <div class="bg-gray-200 h-4 w-1/3 rounded"></div>
+
+                        <div class="space-y-3">
+                        <div
+                            v-for="i in 4"
+                            :key="i"
+                            class="bg-gray-200 h-12 rounded"
+                        ></div>
+                        </div>
+
+                        <div class="space-y-2">
+                        <div
+                            v-for="i in 3"
+                            :key="i"
+                            class="bg-gray-200 h-4 rounded"
+                        ></div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </template>
 
@@ -144,7 +191,7 @@
 import { useProductStore } from "@/stores/client/products";
 import { useCartStore } from "@/stores/client/cart";
 import Product from "@/components/Product.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted,watch  } from "vue";
 import { useRoute } from "vue-router";
 
 import {
@@ -187,10 +234,34 @@ const productModel = useProductStore()
 const cartModel = useCartStore()
 const route = useRoute()
 
-onMounted(async () => {
+// onMounted(async () => {
+//     isLoading.value = true;
+//     await productModel.getById(route.params.id);
+//     await productModel.getAll();
+//     isLoading.value = false;
+// });
+
+
+const loadProduct = async (id) => {
     isLoading.value = true;
-    await productModel.getById(route.params.id);
+    await productModel.getById(id);
     await productModel.getAll();
     isLoading.value = false;
+};
+
+onMounted(() => {
+    loadProduct(route.params.id);
 });
+
+watch(
+    () => route.params.id,
+    (newId, oldId) => {
+        if (newId !== oldId) {
+            loadProduct(newId);
+        }
+    }
+);
+
+
+// 
 </script>

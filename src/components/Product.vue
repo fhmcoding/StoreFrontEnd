@@ -20,6 +20,7 @@
                 {{ product.products.find((e) => e.offers.length > 0).offers[0].title  }}
             </span>
         </div>
+        <!-- pr-->
         <div class="text-center">
             <h3 class="px-1 mt-4 text-sm text-gray-700">
                 <RouterLink :to="'/products/' + product.id">
