@@ -4,7 +4,7 @@ import { useAuthStore } from './auth';
 import { useAlertStore } from '@/stores/alert';
 import axios from "axios"
 
-const baseUrl = `https://storeapi.fhmcoding.com/api/backoffice/permissions`;
+const baseUrl = `https://storeapi.scentavenue.shop/api/backoffice/permissions`;
 
 export const usePermissionStore = defineStore('permission', () => {
 

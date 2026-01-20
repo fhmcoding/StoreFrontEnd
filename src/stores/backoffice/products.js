@@ -4,7 +4,7 @@ import { useAuthStore } from './auth';
 import { useAlertStore } from '@/stores/alert';
 import axios from "axios"
 
-const baseUrl = `https://storeapi.fhmcoding.com/api/backoffice/products`;
+const baseUrl = `https://storeapi.scentavenue.shop/api/backoffice/products`;
 
 export const  useProductStore = defineStore('products',() => {
 

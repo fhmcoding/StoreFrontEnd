@@ -4,7 +4,7 @@ import { useAuthStore } from './auth';
 import { useAlertStore } from '@/stores/alert';
 import axios from "axios"
 
-const baseUrl = `https://storeapi.fhmcoding.com/api/backoffice/statistic`;
+const baseUrl = `https://storeapi.scentavenue.shop/api/backoffice/statistic`;
 
 export const useStatisticStore = defineStore('statistic', () => {
 

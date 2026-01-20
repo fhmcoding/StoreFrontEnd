@@ -108,7 +108,7 @@
                                             v-bind:allow-multiple="false"
                                             accepted-file-types="image/jpeg, image/png, image/svg"
                                             :server="{
-                                                url:'https://storeapi.fhmcoding.com',
+                                                url:'https://storeapi.scentavenue.shop',
                                                 process: {
                                                     url:'/api/backoffice/upload_images',
                                                     method: 'POST',
@@ -174,7 +174,7 @@
                                             v-bind:allow-multiple="false"
                                             accepted-file-types="image/jpeg, image/png, image/svg"
                                             :server="{
-                                                url:'https://storeapi.fhmcoding.com',
+                                                url:'https://storeapi.scentavenue.shop',
                                                 process: {
                                                     url:'/api/backoffice/upload_images',
                                                     method: 'POST',
