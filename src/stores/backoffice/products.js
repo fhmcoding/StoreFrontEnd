@@ -22,7 +22,7 @@ export const  useProductStore = defineStore('products',() => {
     async function getList(){
         try {
             const response = await axios.get(
-                baseUrl+'/list',
+                baseUrl+'/list?all=true',
                 {
                     headers: {
                         "Accept": "application/json",

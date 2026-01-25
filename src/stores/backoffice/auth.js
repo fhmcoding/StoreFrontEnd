@@ -63,6 +63,23 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    async function getUsersAccountes(){
+        try {
+            return await axios.get(
+                baseUrl+'users',
+                {
+                    headers: {
+                        "Accept": "application/json",
+                    },
+                }
+            );
+        } catch (error) {
+            //const alertStore = useAlertStore();
+            //alertStore.error(error);
+            //console.log('permissions error')
+        }
+    }
+
     async function getPermissions(){
         try {
             return await axios.get(
@@ -97,5 +114,5 @@ export const useAuthStore = defineStore('auth', () => {
         localStorage.setItem('permissions', JSON.stringify(listPermissions.data));
     }
 
-    return { user, token, login, permissions, hasPermission, logout }
+    return { user, token, login, permissions, hasPermission, logout, getUsersAccountes }
 })

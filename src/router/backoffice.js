@@ -22,6 +22,8 @@ export default [
                 component: () => import('@/views/backoffice/Index.vue'),
                 beforeEnter: [],
             },
+            
+            
             {
                 path: 'users',
                 children: [
@@ -138,5 +140,10 @@ export default [
                 beforeEnter: [ hasPermission ],
             },
         ]
+    },
+    {
+        path: '/backoffice/caisse',
+        component: () => import('@/views/backoffice/Caisse/Index.vue'),
+        beforeEnter: [isAuth],
     },
 ]
