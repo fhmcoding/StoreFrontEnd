@@ -1,24 +1,26 @@
 import { ref ,computed} from 'vue'
 import { defineStore } from 'pinia'
 import axios from "axios"
+import { useAuthStore } from './auth';
 
-const baseUrl = `https://storeapi.scentavenue.shop/api`;
+const baseUrl = `https://storeapi.scentavenue.shop/api/backoffice`;
 
 export const  useCaisseStore = defineStore('caisse',() => {
 
-   const cart = ref([])
+    const cart = ref([])
 
-
+    const auth = useAuthStore()
+    
     const cartCount = computed(() => cart.value.length)
     const cartTotal = computed(() => {
         let total = 0;
         cart.value.forEach((e) => {
 
-            if(e.product.offers.length > 0){
-                total += e.product.offers[0].pivot.price * e.quantity
-            }else{ 
+            // if(e.product.offers.length > 0){
+            //     total += e.product.offers[0].pivot.price * e.quantity
+            // }else{ 
                 total += e.price * e.quantity
-            }
+            // }
         })
 
         return total
@@ -34,10 +36,11 @@ export const  useCaisseStore = defineStore('caisse',() => {
             increment(product);
             return cart.value;
         }
+        console.log(product.sale_price)
         cart.value = [...cart.value,{
             product_id:product.product_code,
             quantity:1,
-            price:product.offers.length > 0 ? product.offers[0].pivot.price : product.price,
+            price: product.sale_price,
             product:product
         }]
         localStorage.setItem('cart', JSON.stringify(cart.value));
@@ -76,23 +79,22 @@ export const  useCaisseStore = defineStore('caisse',() => {
     
 
     async function checkout(payload){
-        
-                        // "Authorization":`Bearer ${localStorage.getItem('token')}`
+            console.log(auth.token,payload)
         try {
             const response = await axios.post(
-                baseUrl+'/checkout',payload,
-                {
-                    "Authorization":`Bearer ${localStorage.getItem('token')}`
+                baseUrl+'/orders/checkout',payload,
+               {
+                    headers: {
+                        "Accept": "application/json",
+                        "Authorization": `Bearer ${auth.token}`
+                    },
                 }
             );
-
-            console.log(response);
             cart.value = [];
-            localStorage.setItem('cart', JSON.stringify(cart.value));
-
+            return { status: true,data:response.data}
 
         } catch (error) {
-            
+            return {status : false }
         }
         return true;
     }

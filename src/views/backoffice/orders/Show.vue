@@ -100,6 +100,10 @@
                         <h5>Order Status</h5>
                         <h4>{{orderModel.order.status}}</h4>
                     </div> 
+                     <div class="flex items-center justify-between">
+                        <h5>Payment Method</h5>
+                        <h4>{{orderModel.order.payments.length == 1 ? orderModel.order.payments[0].payment_method : '-' }}</h4>
+                    </div> 
                     <div class="flex items-center justify-between">
                         <h5>Placed At</h5>
                         <h4>{{formatDate(orderModel.order.created_at)}}</h4>
@@ -138,8 +142,8 @@
                                                     "
                                                     class=" font-semibold text-gray-800 hover:text-gray-800"
                                                     >{{
-                                                        item.product.name
-                                                    }} - {{ item.name }}</RouterLink
+                                                        item.name
+                                                    }} </RouterLink
                                                 >
                                             </h3>
                                         </div>

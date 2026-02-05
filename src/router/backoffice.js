@@ -54,8 +54,62 @@ export default [
                 ]
             },
             {
+                path: 'clients',
+                children: [
+                    {
+                        path: 'edit/:id',
+                        component: () => import('@/views/backoffice/clients/Edit.vue'),
+                        meta: {
+                            permission: "user-edit",
+                        },
+                        beforeEnter: [ hasPermission ],
+                    },
+                    {
+                        path: 'create',
+                        component: () => import('@/views/backoffice/clients/Create.vue'),
+                        meta: {
+                            permission: "user-create",
+                        },
+                        beforeEnter: [ hasPermission ],
+                    },
+
+                    {
+                        path: 'status/:id',
+                        component: () => import('@/views/backoffice/clients/Status.vue'),
+                        meta: {
+                            permission: "user-create",
+                        },
+                        beforeEnter: [ hasPermission ],
+                    },
+                    {
+                        path: '',
+                        component: () => import('@/views/backoffice/clients/List.vue'),
+                        meta: {
+                            permission: "user-list",
+                        },
+                        beforeEnter: [ hasPermission ],
+                    }
+                ]
+            },
+            {
                 path: 'roles',
                 component: () => import('@/views/backoffice/roles/Index.vue'),
+                meta: {
+                    permission: "role-list",
+                },
+                beforeEnter: [ hasPermission ],
+            },
+            {
+                path: 'payments',
+                component: () => import('@/views/backoffice/payments/List.vue'),
+                meta: {
+                    permission: "role-list",
+                },
+                beforeEnter: [ hasPermission ],
+            },
+            {
+                path: 'payments/create',
+                component: () => import('@/views/backoffice/payments/Create.vue'),
                 meta: {
                     permission: "role-list",
                 },
@@ -142,8 +196,22 @@ export default [
         ]
     },
     {
+        path: '/backoffice/caisse/print/status',
+        component: () => import('@/views/backoffice/Caisse/Status.vue'),
+        beforeEnter: [isAuth],
+    },
+    {
+        path: '/backoffice/caisse/print/:id',
+        component: () => import('@/views/backoffice/Caisse/Print.vue'),
+        beforeEnter: [isAuth],
+    },
+    
+    {
         path: '/backoffice/caisse',
         component: () => import('@/views/backoffice/Caisse/Index.vue'),
-        beforeEnter: [isAuth],
+        meta: {
+            permission: "caisse",
+        },
+        beforeEnter: [isAuth, hasPermission ]
     },
 ]

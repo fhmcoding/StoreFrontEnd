@@ -81,51 +81,31 @@
                             </div>
 
                             <div class=" border rounded-md p-2 mt-2 bg-gray-50"> 
-                                <div class="flex items-end gap-6 mb-2" v-for="(product,index) in products" :key="index">
+                                <div class="flex items-end gap-6 mb-2">
                                     <div class="w-2/5">
                                         <label for="reference" class="block text-sm font-medium text-gray-700 dark:text-gray-300">reference</label>
-                                        <input v-model="product.product_code" :class="{'bg-gray-100 cursor-not-allowed':product.id !== undefined}" :readonly="product.id !== undefined" :disabled="product.id !== undefined" type="text" name="reference" id="size" placeholder="reference"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <input v-model="product_code"  type="text" name="reference" id="size" placeholder="reference"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                     </div>
 
-                                    <div class="w-1/5">
-                                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Size (ml)</label>
-                                        <input v-model="product.name" type="text" name="size" id="size" placeholder="size"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                    </div>
 
                                     <div class="flex items-center justify-between w-1/5 gap-2">
                                         <div class="w-1/2">
                                             <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
-                                            <input v-model="product.price" type="number" name="price" id="price" autocomplete="price" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                            <input v-model="price" type="number" name="price" id="price" autocomplete="price" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                         </div>
 
                                         <div class="w-1/2">
                                             <label for="sale-price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Sale Price</label>
-                                            <input v-model="product.sale_price" type="number" name="sale-price" id="sale-price" autocomplete="sale-price" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                            <input v-model="sale_price" type="number" name="sale-price" id="sale-price" autocomplete="sale-price" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                         </div>
                                     </div>
 
                                     <div class="w-1/5">
                                         <label for="stock_quantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stock Quantity</label>
-                                        <input v-model="product.stock_quantity" type="number" name="stock_quantity" id="stock_quantity"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <input v-model="stock_quantity" type="number" name="stock_quantity" id="stock_quantity"  class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                     </div>
 
-                                    <div class="w-1/5 flex items-end gap-2">
-                                        <!-- Add Button -->
-                                        <button 
-                                            @click="add()"
-                                            class="px-3 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 focus:ring-2 focus:ring-green-400">
-                                            Add
-                                        </button>
-
-                                        <!-- Remove Button -->
-                                        <button 
-                                            v-if="products.length > 1 && product.id == undefined"
-                                            
-                                            @click="remove(index)"
-                                            class="px-3 py-2 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:ring-2 focus:ring-red-400">
-                                            Remove
-                                        </button>
-                                    </div>
+                                    
                                 </div>
                             </div>
 
@@ -167,8 +147,9 @@
                                 </div>
 
                                 <div class="flex items-center">
-                                    <input v-model="is_active" id="is_active" class=" w-9 mr-2 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch">
-                                    <label for="is_active" class="dark:text-gray-300 inline-block text-gray-800">is Active</label>
+                                    <input type="checkbox"  v-model="is_active"   id="is_active" class=" w-9 mr-2 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"  >
+
+                                    <label for="is_active" class="dark:text-gray-300 inline-block text-gray-800">is Active </label>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +159,7 @@
                                 <span v-if="IsSubmitting" class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
                                     <Cog6ToothIcon class="h-5 w-5 text-white" aria-hidden="true" />
                                 </span>
-                                Update Product
+                                Update Product {{ IsSubmitting }}
                             </button>
                         </div>
                     </div>
@@ -234,7 +215,6 @@
 
     const editor = ref(ClassicEditor);
     const editorConfig = ref({})
-
     /* Fields and validation create user start */
 
     const form_update_product = useForm({
@@ -244,28 +224,35 @@
             category_id: yup.number().moreThan(0,'Category is required').required(),
             is_active: yup.boolean().required(),
             description: yup.string(),
-           
+            product_code:yup.number().required(),
+            price:yup.number().required(),
+            sale_price:yup.number().required(),
+            stock_quantity:yup.number().required()
         }),
     });
     
-    const [name,  brand_id, category_id, is_active, description] = form_update_product.useFieldModel(['name','brand_id','category_id','is_active','description']);
-    const products = ref([])
+    const [name,  brand_id, category_id, is_active, description,product_code,price,sale_price,stock_quantity] = form_update_product.useFieldModel(['name','brand_id','category_id','is_active','description','product_code','price','sale_price','stock_quantity']);
+    // const products = ref([])
     /* Fields and validation end */
 
     onMounted( async() => {
         await productModel.getById(route.params.id)
         await brandModel.getAll()
         await categoryModel.getAll()
-        brand_id.value = 0
-        category_id.value = 0
+        // brand_id.value = 0
+        // category_id.value = 0
         isLoading.value = false
         
         name.value = productModel.product.name
-        brand_id.value = productModel.product.brand.id
-        category_id.value = productModel.product.category.id
+        brand_id.value = productModel.product.brand !== null ? productModel.product.brand.id : ''
+        category_id.value = productModel.product.category !== null ? productModel.product.category.id : ''
+        description.value = productModel.product.description == null ? '' : productModel.product.description
+        price.value = productModel.product.price,
+        product_code.value = productModel.product.product_code
+        sale_price.value = productModel.product.sale_price
+        stock_quantity.value = productModel.product.stock_quantity
         is_active.value = productModel.product.is_active
-        description.value = productModel.product.description
-        products.value = productModel.product.products
+        // products.value = productModel.product.products
 
 
     })
@@ -280,8 +267,7 @@
             values.images = produtImages.value.map((e) => e.source);
         }
 
-        values.products = products.value
-
+        
         let result = await productModel.update(productModel.product.id,values)
         
         if(result.status){
@@ -290,21 +276,6 @@
         IsSubmitting.value = false
     },onInvalidSubmit);
 
-    const add = () => {
-        products.value = [...products.value,{
-            name:'',
-            price:0,
-            sale_price:0,
-            stock_quantity:1,
-            product_code:'',
-        }]
-        console.log('add')
-    }
-
-    const remove = (index) => {
-        products.value.splice(index, 1)
-        console.log('add')
-    }
 
     const  removeImage  = async (imageId) => {
         let reponse = await productModel.removeImge(imageId);
@@ -321,6 +292,7 @@
     }
 
     function onInvalidSubmit({ errors }) {
+        console.log(errors)
         alertModel.clear()
         alertModel.danger(Object.keys(errors)[0], Object.values(errors)[0], "block")
     }

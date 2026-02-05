@@ -103,7 +103,7 @@
 
 <script setup>
 
-    import { TrashIcon, PencilSquareIcon, PlusCircleIcon, Cog6ToothIcon, EyeIcon } from '@heroicons/vue/24/outline'
+    import { TrashIcon, PencilSquareIcon, XCircleIcon,PlusCircleIcon, Cog6ToothIcon, EyeIcon } from '@heroicons/vue/24/outline'
     import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
     import { ref,onMounted,watch } from 'vue'
     

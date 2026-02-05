@@ -19,12 +19,11 @@ export const  useOrderStore = defineStore('orders',() => {
     const alert = useAlertStore()
     const auth = useAuthStore()
 
-    
 
-    async function getAll(){
+    async function getAll(user_id = null){
         try {
             const response = await axios.get(
-                baseUrl+'?include=customer,productsCount'+'&per_page='+per_page.value+'&page='+page.value,
+                baseUrl+'?include=customer,payments,productsCount'+'&per_page='+per_page.value+'&page='+page.value + `${user_id !== null ? '&filter[user_id]='+user_id : ''}`,
                 {
                     headers: {
                         "Accept": "application/json",

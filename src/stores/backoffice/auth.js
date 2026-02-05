@@ -52,8 +52,12 @@ export const useAuthStore = defineStore('auth', () => {
             this.permissions = JSON.stringify(listPermissions.data);
 
             localStorage.setItem('permissions', JSON.stringify(listPermissions.data));
-
-            await router.push('/backoffice');
+            console.log(listPermissions.data.find((e) => e.name == 'caisse'))
+            if(listPermissions.data.find((e) => e.name == 'caisse') !== undefined ){
+                await router.push('/backoffice/caisse');    
+            }else{
+                await router.push('/backoffice');
+            }
 
             return { status: false }
 
@@ -105,7 +109,7 @@ export const useAuthStore = defineStore('auth', () => {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         localStorage.removeItem('permissions');
-        await router.push('/user/login');
+        await router.push('/login');
     }
 
     async function refreshPermissions(){

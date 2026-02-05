@@ -167,7 +167,9 @@
         SparklesIcon,
         SquaresPlusIcon,
         ArchiveBoxIcon,
-        ShoppingCartIcon
+        ShoppingCartIcon,
+        CreditCardIcon,
+        ShoppingBagIcon
     } from '@heroicons/vue/24/outline'
 
     import { watch, ref, onMounted } from 'vue'
@@ -184,7 +186,12 @@
 
     const navigation = ref([
         { name: 'Dashboard', to: '/backoffice', icon: HomeIcon, current: false, display: true },
+        { name: 'Caisse', to: '/backoffice/caisse', icon: ShoppingBagIcon, current: false, display: auth.permissions.search('caisse') > 1 },
+
         { name: 'Users', to: '/backoffice/users', icon: UsersIcon, current: false, display: auth.permissions.search('user-list') > 1 },
+        { name: 'Clients', to: '/backoffice/clients', icon: UsersIcon, current: false, display: auth.permissions.search('client-list') > 1 },
+        { name: 'Payments', to: '/backoffice/payments', icon: CreditCardIcon, current: false, display: auth.permissions.search('payment-list') > 1 },
+
         { name: 'Roles', to: '/backoffice/roles', icon: KeyIcon, current: false, display: auth.permissions.search('role-list') > 1 },
         { name: 'Permissions', to: '/backoffice/permissions', icon: AdjustmentsHorizontalIcon, current: false, display: auth.permissions.search('permission-list') > 1 },
         { name: 'Brands', to: '/backoffice/brands', icon: SparklesIcon, current: false, display: auth.permissions.search('brand-list') > 1 },

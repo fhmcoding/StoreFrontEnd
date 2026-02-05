@@ -39,9 +39,9 @@
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Price</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Sale Price</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Stock Quantity</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">variations</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Brand</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Category</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Status</th>
                         <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900 dark:text-gray-300 text-center">Actions</th>
                     </tr>
                 </thead>
@@ -57,24 +57,21 @@
                             </div>
                             <div>
                                 <div class="font-normal text-sm text-gray-500 dark:text-gray-400">{{ item.product_code }}</div>
-                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.name }} ({{ item.products.length > 0 ?  item.products[0].name : '' }} ml)</div>
+                                <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.name }}</div>
                             </div>
                         </td>
                         
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            {{item.products.length >0?  item.products[0].price : 0 }}
+                            {{  item.price  }}
     
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            {{ item.products.length > 0 ? item.products[0].sale_price : '-' }}
+                            {{item.sale_price  }}
                         </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            <span v-if='item.products.length > 0'>{{item.products[0].stock_quantity}}</span>
+                        <td  class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
+                            <span :class="{'text-red-600 font-semibold' : item.stock_quantity == 0}">{{item.stock_quantity }}</span>
                         </td>
 
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            <span>{{item.products.length}}</span>
-                        </td>
 
 
                        
@@ -84,6 +81,11 @@
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-600 dark:text-gray-300 sm:pl-6">
                            {{item.brand !== null ? item.brand.name : 'no brand' }}
                         </td>
+
+                        <td :class="{'text-red-600':!item.is_active,'text-gray-600':item.is_active}" class="whitespace-nowrap py-4 pl-4 pr-3 text-sm  dark:text-gray-300 sm:pl-6">
+                           {{item.is_active  ? 'active': 'not-active' }}
+                        </td>
+
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-center sm:pr-6">
                             <div class="flex justify-center text-primary dark:text-primary font-bold space-x-2">
                                 <TrashIcon v-if="auth.hasPermission('product-delete')" @click="destroy(item.id)" class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" />

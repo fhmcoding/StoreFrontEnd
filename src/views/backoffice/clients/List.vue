@@ -14,7 +14,7 @@
                     <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                     </svg>
-                    <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-300">Users</span>
+                    <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-300">Clients</span>
                 </div>
             </li>
         </ol>
@@ -22,10 +22,10 @@
     <Alert />
     <div class="md:bg-white md:bg-gray-150 md:rounded-lg md:shadow-md dark:bg-gray-800 mb-5">
         <div class="p-4 flex justify-between">
-            <h1 class="my-auto text-xl font-semibold text-gray-900 dark:text-gray-50">Users</h1>
-            <routerLink v-if="auth.hasPermission('user-create')" to="/backoffice/users/create" type="button" class="text-white bg-primary hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
+            <h1 class="my-auto text-xl font-semibold text-gray-900 dark:text-gray-50">Clients</h1>
+            <routerLink v-if="auth.hasPermission('client-create')" to="/backoffice/clients/create" type="button" class="text-white bg-primary hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
                 <UserPlusIcon class="h-5 mr-1" aria-hidden="true" />
-                Add user
+                Add Client
             </routerLink>
         </div>
 
@@ -36,17 +36,15 @@
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr class="dark:border-gray-700">
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 dark:text-gray-300">Name</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Role</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Payment Methods</th>
-    
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Credit</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Status</th>
                         <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900 dark:text-gray-300 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
                     <tr v-if="isLoading" class="text-center text-gray-400"><td colspan="5" class="p-2">loading...</td></tr>
-                    <tr v-else-if="userModel.users.length == 0" class="text-center text-gray-400"><td colspan="5" class="p-2">Empty</td></tr>
-                    <tr v-else v-for="item in userModel.users" :key="item.email">
+                    <tr v-else-if="clientModel.clients.length == 0" class="text-center text-gray-400"><td colspan="5" class="p-2">Empty</td></tr>
+                    <tr v-else v-for="item in clientModel.clients" :key="item.email">
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                             <div class="ml-4">
                                 <div class="text-base font-medium text-gray-900 dark:text-gray-300">{{ item.first_name }} {{ item.last_name }}</div>
@@ -54,15 +52,9 @@
                             </div>
                         </td>
                         
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                            <span v-for="(role,index) in item.roles.map(a => a.name)" :key="index" class="text-xs inline-block py-1 px-2.5 mr-2 leading-none text-center whitespace-nowrap align-baseline font-bold bg-primary text-white rounded">{{ role }}</span>
-                        </td>
+                        
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300 flex gap-1">
-                            <span   class=" bg-gray-300 text-black font-semibold py-2 px-2   rounded border" :class="{'opacity-25':!item.payment_methods.cache}" >CASH</span>
-                            <span    class="bg-purple-600    text-white font-semibold py-2 px-2   rounded border"  :class="{'opacity-25':!item.payment_methods.tpe}" >TPE</span>
-                            <span   class=" bg-red-500   text-white font-semibold py-2 px-2  rounded border" :class="{'opacity-25':!item.payment_methods.virement}" >virement</span>
-                            <span  class="bg-blue-500    text-white font-semibold py-2 px-2  rounded border" :class="{'opacity-25':!item.payment_methods.cheque}" >Cheque</span>
-                            <span  class="bg-orange-500    text-white font-semibold py-2 px-2 rounded border" :class="{'opacity-25':!item.payment_methods.credit}" >Credit</span>
+                            <span :class="{'bg-red-500':item.credit > 0, 'bg-gray-500':item.credit == 0, }"  class="    text-white font-semibold py-2 px-2  rounded border">{{ item.credit}} DH</span>
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             <span v-if="item.is_active" class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800 dark:bg-green-200">Active</span>
@@ -70,14 +62,20 @@
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-center sm:pr-6">
                             <div class="flex justify-center text-primary dark:text-primary font-bold space-x-2">
-                                <TrashIcon v-if="auth.hasPermission('user-delete')" @click="destroy(item.id)" class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" />
-                                <RouterLink :to="'/backoffice/users/edit/'+item.id"> <PencilSquareIcon  v-if="auth.hasPermission('user-edit')" class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" /></RouterLink>
+                                <TrashIcon v-if="auth.hasPermission('client-delete')" @click="destroy(item.id)" class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" />
+                                <RouterLink :to="'/backoffice/clients/edit/'+item.id" v-if="auth.hasPermission('client-edit')"> <PencilSquareIcon   class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" /></RouterLink>
+
+                                <routerLink :to="'/backoffice/clients/status/'+item.id" v-if="auth.hasPermission('client-status')" type="button" class="cursor-pointer font-bold h-5 w-5" 
+                                    >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                                    
+                                </routerLink>
                             </div>
                         </td>
-                    </tr>
+                    </tr> 
                 </tbody>
             </table>
-            <Pagination :links='userModel.pagination' :goToPage="goToPage" v-if='!isLoading && userModel.users.length > 0' />
+            <Pagination :links='clientModel.pagination' :goToPage="goToPage" v-if='!isLoading && clientModel.clients.length > 0' />
         </div>
     
     </div>
@@ -88,14 +86,14 @@
     import { ref,onMounted,watch } from 'vue'
     import { useAlertStore } from '@/stores/alert'
     import { useAuthStore } from '@/stores/backoffice/auth'
-    import { useUserStore } from '@/stores/backoffice/user'
+    import { useClientStore } from '@/stores/backoffice/client'
     import Pagination from '@/components/Pagination.vue'
     import Alert from '@/components/Alert.vue'
     
 
     const auth = useAuthStore()
     const alertModel = useAlertStore()
-    const userModel = useUserStore()
+    const clientModel = useClientStore()
     const isLoading = ref(true)
 
     function destroy(id){
@@ -107,24 +105,24 @@
 
     watch(alertModel, async () => {
         if(alertModel.alert && alertModel.alert.callback && alertModel.alert.confirm){
-            await userModel.destroy(alertModel.alert.id)
+            await clientModel.destroy(alertModel.alert.id)
             isLoading.value = true
-            await userModel.getAll()
+            await clientModel.getAll()
             isLoading.value = false
         }
     })
 
     onMounted( async() => {
         alertModel.clear()
-        await userModel.getAll()
+        await clientModel.getAll()
         isLoading.value = false
     })
 
     async function goToPage(page){
         console.log(page);
         isLoading.value = true
-        userModel.page = page
-        await userModel.getAll()
+        clientModel.page = page
+        await clientModel.getAll()
         isLoading.value = false
     }
 
