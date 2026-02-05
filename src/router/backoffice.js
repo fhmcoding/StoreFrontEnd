@@ -107,14 +107,7 @@ export default [
                 },
                 beforeEnter: [ hasPermission ],
             },
-            {
-                path: 'payments/create',
-                component: () => import('@/views/backoffice/payments/Create.vue'),
-                meta: {
-                    permission: "role-list",
-                },
-                beforeEnter: [ hasPermission ],
-            },
+            
             {
                 path: 'permissions',
                 component: () => import('@/views/backoffice/permissions/Index.vue'),
