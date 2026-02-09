@@ -23,11 +23,40 @@
     <div class="md:bg-white md:bg-gray-150 md:rounded-lg md:shadow-md dark:bg-gray-800 mb-5">
         <div class="p-4 flex justify-between">
             <h1 class="my-auto text-xl font-semibold text-gray-900 dark:text-gray-50">Products</h1>
-            <routerLink v-if="auth.hasPermission('product-create')" to="/backoffice/products/create" type="button" class="text-white bg-primary hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
-                <PlusCircleIcon class="h-5 mr-1" aria-hidden="true" />
-                Add Product
-            </routerLink>
+            <div class="flex items-center gap-2">
+                <div class="relative">
+                    <label for="barcode" class="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-900">Barcode</label>
+                    <input type="number" v-model="barcode" name="barcode" id="barcode" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="123 45678 99" />
+                </div>
+                <div class="relative">
+                    <label for="title" class="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-900">Name</label>
+                    <input type="text" v-model="product_name" name="title" id="title" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Product name" />
+                </div>
+                <div class="relative">
+                    <label for="location" class="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-900">Brand</label>
+                    <div class=" grid grid-cols-1">
+                        <select v-model="brand_id" id="location" name="location" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
+                            <option></option>
+                            <option v-for="(brand,index) in brandModel.brands" :key="index" :value="brand.id"> {{ brand.name  }}</option>
+                        </select>
+                        <ChevronDownIcon class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" aria-hidden="true" />
+                    </div>
+                </div>
+                <button
+                    @click="Refresh()"
+                    class="p-2 rounded-full text-white bg-blue-600 hover:bg-blue-700 transition"
+                    title="Refresh"
+                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search w-5 h-5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <routerLink v-if="auth.hasPermission('product-create')" to="/backoffice/products/create" type="button" class="text-white bg-primary hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
+                    <PlusCircleIcon class="h-5 mr-1" aria-hidden="true" />
+                    Add Product
+                </routerLink>
+            </div>
         </div>
+        
+
 
         <hr class="dark:border-gray-600 hidden md:block" />
         
@@ -108,6 +137,7 @@
     import { useAlertStore } from '@/stores/alert'
     import { useAuthStore } from '@/stores/backoffice/auth'
     import { useProductStore } from '@/stores/backoffice/products'
+    import { useBrandStore } from '@/stores/backoffice/brands'
 
     import Pagination from '@/components/Pagination.vue'
     import Alert from '@/components/Alert.vue'
@@ -117,13 +147,26 @@
     const alertModel = useAlertStore()
     const productModel = useProductStore()
     const isLoading = ref(true)
+    const brandModel = useBrandStore()
+    const barcode = ref('');
+    const product_name = ref('');
+    const brand_id = ref('');
 
     function destroy(id){
         alertModel.clear()
         alertModel.remove("Remove Product", "Are you sure ?", id)
     }
 
-
+    const Refresh = async () => {
+        alertModel.clear()
+        isLoading.value = true
+        await productModel.getAll({
+            brand_id:brand_id.value,
+            name:product_name.value,
+            product_code: barcode.value
+        })
+        isLoading.value = false
+    }
 
     watch(alertModel, async () => {
         if(alertModel.alert && alertModel.alert.callback && alertModel.alert.confirm){
@@ -137,6 +180,7 @@
     onMounted( async() => {
         alertModel.clear()
         await productModel.getAll()
+        await brandModel.getAll()
         isLoading.value = false
     })
 

@@ -177,6 +177,7 @@
                     <button :disabled="!auth.user.payment_methods.virement"  @click="selected_payment_method = 'virement' ; checkoutPopup = true"  :class="{'bg-red-200 cursor-not-allowed':!auth.user.payment_methods.virement,'bg-red-500 hover:bg-red-600':auth.user.payment_methods.virement}"  class="w-1/2  text-white font-semibold py-3  rounded-sm border">virement</button>
                     <button :disabled="!auth.user.payment_methods.cheque"  @click="selected_payment_method = 'cheque' ; checkoutPopup = true"  :class="{'bg-blue-200 cursor-not-allowed':!auth.user.payment_methods.cheque,'bg-blue-500 hover:bg-blue-600':auth.user.payment_methods.cheque}" class="w-1/2  text-white font-semibold py-3  rounded-sm border">Cheque</button>
                     <button :disabled="!auth.user.payment_methods.credit" @click="selected_payment_method = 'credit' ; checkoutPopup = true"  :class="{'bg-orange-200 cursor-not-allowed':!auth.user.payment_methods.credit,'bg-orange-500 hover:bg-orange-600':auth.user.payment_methods.credit}" class="w-1/2  text-white font-semibold py-3 rounded-sm border">Credit</button>
+                    <button  @click="selected_payment_method = 'mixte' ; mixtePaymentMethod = true"  class="w-1/2  text-white font-semibold py-3 rounded-sm border bg-black">Mixte</button>
                 </div>
             </div>
         </div>
@@ -239,9 +240,15 @@
                                 <span>client : </span>
                                 <span class="font-semibold">{{  selected_user.first_name }} {{ selected_user.last_name}}</span>
                             </div>
-                            <div class="flex items-center justify-between mt-1">
+                            <div class="flex items-center justify-between mt-1" v-if='selected_payment_method !== "mixte"'>
                                 <span>Payment Method : </span>
                                 <span>{{  selected_payment_method }}</span>
+                            </div>
+                            <div v-else>
+                                <div class="flex items-center justify-between mt-1" v-for="(payment,index) in payments" :key='index' >
+                                    <span>{{ payment.payment_method }} : </span>
+                                    <span>{{ payment.amount }} DH </span>
+                                </div>
                             </div>
                         </div>
                         <ul role="list"   class="divide-y divide-gray-200 px-4 sm:px-6 lg:px-8">
@@ -288,6 +295,80 @@
                 </div>
             </Dialog>
         </TransitionRoot>
+
+
+         <TransitionRoot as="template" :show="mixtePaymentMethod">
+            <Dialog class="relative z-10" @close="mixtePaymentMethod = false">
+                <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="" leave="ease-in duration-200" leave-from="" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
+                </TransitionChild>
+
+                <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to=" translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from=" translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                    <DialogPanel v-if='caisseModel.cart.length > 0' class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                        <h6 class="text-center text-gray-500">TOTAL</h6>
+                        <h1 class=" font-semibold text-3xl text-center">{{caisseModel.cartTotal}} DH</h1>
+                        <div class="pt-4 mt-4">
+                            <div class="flex gap-2 items-center mb-6" v-for="(payment,index) in payments" :key="index">
+                                <div class="relative">
+                                    <label for="title" class="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-900">Amount</label>
+                                    <input type="text" v-model="payment.amount" name="title" id="title" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Product name" />
+                                </div>
+
+                                <div class="relative">
+                                    <label for="location" class="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-900">Method</label>
+                                    <div class=" grid grid-cols-1">
+                                        <select v-model="payment.payment_method" id="location" name="location" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
+                                            <option value="cash" v-if="auth.user.payment_methods.cache">cash</option>
+                                            <option value="tpe" v-if="auth.user.payment_methods.tpe">tpe</option> 
+                                            <option value="virement" v-if="auth.user.payment_methods.virement">virement</option>
+                                            <option value="cheque" v-if='auth.user.payment_methods.cheque'>cheque</option>
+                                        </select>
+                                        <ChevronDownIcon class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" aria-hidden="true" />
+                                    </div>
+                                </div>
+
+                                <div class="w-1/5 flex items-end gap-2">
+                                    <!-- Add Button -->
+                                    <button 
+                                        v-if="payments.reduce((sum, item) => { return sum + Number(item.amount);}, 0) < caisseModel.cartTotal"
+                                        @click="add()"
+                                        class="px-3 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 focus:ring-2 focus:ring-green-400">
+                                        Add
+                                    </button>
+
+                                    <!-- Remove Button -->
+                                    <button 
+                                        v-if="payments.length != 1"
+                                        @click="remove()"
+                                        class="px-3 py-2 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:ring-2 focus:ring-red-400">
+                                        Remove
+                                    </button>
+                                </div>
+
+                               
+
+                            </div>
+                        </div>
+
+                        <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                            <button :disabled="payments.reduce((sum, item) => { return sum + Number(item.amount);}, 0) != caisseModel.cartTotal" :class="{' opacity-40':payments.reduce((sum, item) => { return sum + Number(item.amount);}, 0) != caisseModel.cartTotal}" type="button" class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2" @click="payments.reduce((sum, item) => { return sum + Number(item.amount);}, 0) != caisseModel.cartTotal ? false : checkoutPopup = true">
+                                <span v-if="checkoutSubmit" class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                                    <Cog6ToothIcon class="h-5 w-5 text-white" aria-hidden="true" />
+                                </span>
+                                Validate
+
+                            </button>
+                            <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-900 shadow-xs inset-ring-1 border border-red-700 inset-ring-red-300 hover:bg-red-50 sm:col-start-1 sm:mt-0" @click="mixtePaymentMethod = false" ref="cancelButtonRef">Cancel</button>
+                        </div>
+                    </DialogPanel>
+                    </TransitionChild>
+                </div>
+                </div>
+            </Dialog>
+        </TransitionRoot>
+
     </div>
 
 
@@ -329,8 +410,24 @@ const tem_selectd_user = ref('');
 const selected_user = ref('')
 const selected_payment_method = ref('');
 const checkoutPopup = ref(false)
+const mixtePaymentMethod = ref(false)
 const now = ref(new Date().toISOString().slice(0, 19).replace('T', ' '))
 const checkoutSubmit = ref(false)
+const payments = ref([{
+    payment_method:'cash',
+    amount:0
+}])
+
+const add = () => {
+    payments.value = [...payments.value,{
+        payment_method:'cash',
+        amount:0
+    }]
+}
+
+const remove = (index) => {
+    payments.value.splice(index, 1)
+}
 const Refresh = () => {
     barcode.value = '';
     product_name.value = '';
@@ -382,10 +479,13 @@ const checkout =async () => {
         payload.user_id = selected_user.value.id
     }
 
+    if(selected_payment_method.value == 'mixte'){
+        payload.payments = payments.value
+    }
+
     const reponse = await caisseModel.checkout(payload)
-    console.log(reponse)
-    if(reponse.status){
-        
+
+    if(reponse.status){        
         router.push('/backoffice/caisse/print/'+reponse.data.id)
     }
 

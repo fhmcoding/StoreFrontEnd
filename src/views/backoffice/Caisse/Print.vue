@@ -21,9 +21,15 @@
                 <span>client : </span>
                 <span class="font-semibold">{{  orderModel.order.user.first_name }} {{ orderModel.order.user.last_name}}</span>
             </div>
-            <div class="flex items-center justify-between mt-1" v-if="orderModel.order.payments.length > 0">
+            <div class="flex items-center justify-between mt-1" v-if="orderModel.order.payments.length == 1">
                 <span>Payment Method : </span>
                 <span>{{  orderModel.order.payments[0].payment_method }}</span>
+            </div>
+            <div v-if="orderModel.order.payments.length > 1">
+                <div class="flex items-center justify-between mt-1" v-for="(payment,index) in orderModel.order.payments" :key="index" >
+                    <span>{{ payment.payment_method }} : </span>
+                    <span>{{  payment.amount }} DH</span>
+                </div>
             </div>
         </div>
         <ul role="list"   class="divide-y divide-gray-200 px-4 sm:px-6 lg:px-8">

@@ -39,10 +39,13 @@ export const  useProductStore = defineStore('products',() => {
         }
     }
 
-    async function getAll(){
+    async function getAll(filters = null){
+        
         try {
+            this.pagination = ref('')
+            this.products = [];
             const response = await axios.get(
-                baseUrl+'?include=brand,category'+'&per_page='+per_page.value+'&page='+page.value,
+                baseUrl+'?include=brand,category'+'&per_page='+per_page.value+'&page='+page.value+ `${filters !== null ? '&filter[brand_id]=' + filters.brand_id + '&filter[product_code]=' + filters.product_code + '&filter[name]=' +filters.name : ''} ` ,
                 {
                     headers: {
                         "Accept": "application/json",
