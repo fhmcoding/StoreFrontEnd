@@ -174,14 +174,22 @@
         if(alertModel.alert && alertModel.alert.callback && alertModel.alert.confirm){
             await productModel.destroy(alertModel.alert.id)
             isLoading.value = true
-            await productModel.getAll()
+            await productModel.getAll({
+                brand_id:brand_id.value,
+                name:product_name.value,
+                product_code: barcode.value
+            })
             isLoading.value = false
         }
     })
 
     onMounted( async() => {
         alertModel.clear()
-        await productModel.getAll()
+        await productModel.getAll({
+            brand_id:brand_id.value,
+            name:product_name.value,
+            product_code: barcode.value
+        })
         await brandModel.getAll()
         isLoading.value = false
     })
