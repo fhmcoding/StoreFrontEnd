@@ -104,11 +104,13 @@
 
 
                        
-                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-600 dark:text-gray-300 sm:pl-6">
-                            {{item.category !== null ? item.category.name : 'no category' }}
-                        </td>
+                       
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-600 dark:text-gray-300 sm:pl-6">
                            {{item.brand !== null ? item.brand.name : 'no brand' }}
+                        </td>
+
+                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-600 dark:text-gray-300 sm:pl-6">
+                            {{item.category !== null ? item.category.name : 'no category' }}
                         </td>
 
                         <td :class="{'text-red-600':!item.is_active,'text-gray-600':item.is_active}" class="whitespace-nowrap py-4 pl-4 pr-3 text-sm  dark:text-gray-300 sm:pl-6">
