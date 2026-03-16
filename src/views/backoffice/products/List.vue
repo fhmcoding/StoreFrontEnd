@@ -120,7 +120,7 @@
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-center sm:pr-6">
                             <div class="flex justify-center text-primary dark:text-primary font-bold space-x-2">
                                 <TrashIcon v-if="auth.hasPermission('product-delete')" @click="destroy(item.id)" class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" />
-                                <RouterLink :to="'/backoffice/products/edit/'+item.id"> <PencilSquareIcon  v-if="auth.hasPermission('product-edit')" class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" /></RouterLink>
+                                <RouterLink target="_blank" :to="'/backoffice/products/edit/'+item.id"> <PencilSquareIcon  v-if="auth.hasPermission('product-edit')" class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" /></RouterLink>
                             </div>
                         </td>
                     </tr>
