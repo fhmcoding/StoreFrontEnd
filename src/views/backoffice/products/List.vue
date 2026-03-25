@@ -120,7 +120,7 @@
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-center sm:pr-6">
                             <div class="flex justify-center text-primary dark:text-primary font-bold space-x-2">
                                 <TrashIcon v-if="auth.hasPermission('product-delete')" @click="destroy(item.id)" class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" />
-                                <RouterLink target="_blank" :to="'/backoffice/products/edit/'+item.id"> <PencilSquareIcon  v-if="auth.hasPermission('product-edit')" class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" /></RouterLink>
+                                <RouterLink :to="'/backoffice/products/edit/'+item.id"> <PencilSquareIcon  v-if="auth.hasPermission('product-edit')" class="cursor-pointer font-bold h-5 w-5" aria-hidden="true" /></RouterLink>
                             </div>
                         </td>
                     </tr>
@@ -162,6 +162,11 @@
     const Refresh = async () => {
         alertModel.clear()
         isLoading.value = true
+        if(brand_id.value != ''){
+            console.log(brand_id.value)
+            productModel.brand_id = brand_id.value 
+
+        }
         await productModel.getAll({
             brand_id:brand_id.value,
             name:product_name.value,
@@ -185,6 +190,7 @@
 
     onMounted( async() => {
         alertModel.clear()
+        brand_id.value = productModel.brand_id
         await productModel.getAll({
             brand_id:brand_id.value,
             name:product_name.value,

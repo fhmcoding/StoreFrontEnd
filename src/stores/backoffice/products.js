@@ -15,6 +15,7 @@ export const  useProductStore = defineStore('products',() => {
     const page = ref(1)
     const per_page = ref(10)
 
+    const brand_id = ref('')
     
     const alert = useAlertStore()
     const auth = useAuthStore()
@@ -45,7 +46,7 @@ export const  useProductStore = defineStore('products',() => {
             this.pagination = ref('')
             this.products = [];
             const response = await axios.get(
-                baseUrl+'?include=brand,category'+'&per_page='+per_page.value+'&page='+page.value+ `${filters !== null ? '&filter[brand_id]=' + filters.brand_id + '&filter[product_code]=' + filters.product_code + '&filter[name]=' +filters.name : ''} ` ,
+                baseUrl+'?include=brand,category'+'&per_page='+per_page.value+'&page='+page.value+ `${filters !== null ? '&filter[brand_id]=' + brand_id.value + '&filter[product_code]=' + filters.product_code + '&filter[name]=' +filters.name : ''} ` ,
                 {
                     headers: {
                         "Accept": "application/json",
@@ -155,5 +156,5 @@ export const  useProductStore = defineStore('products',() => {
 
 
 
-    return {product, products, pagination, page, per_page, getList,getAll, getById, store, destroy, update, removeImge}
+    return {product, products, pagination, page, per_page, brand_id, getList,getAll, getById, store, destroy, update, removeImge}
 });
