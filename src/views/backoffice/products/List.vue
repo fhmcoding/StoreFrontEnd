@@ -203,7 +203,12 @@
     async function goToPage(page){
         isLoading.value = true
         productModel.page = page
-        await productModel.getAll()
+        await productModel.getAll({
+            brand_id:brand_id.value,
+            name:product_name.value,
+            product_code: barcode.value
+        })
+        
         isLoading.value = false
     }
 
