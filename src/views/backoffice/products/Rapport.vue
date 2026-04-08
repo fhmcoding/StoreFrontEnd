@@ -177,11 +177,7 @@
         await brandModel.getAll()
         isLoading.value = false
 
-        setTimeout(() => {
-        if(isLoading.value == false){
-            window.print(); 
-        }
-    }, 1000);
+        
     })
 
     async function goToPage(page){
