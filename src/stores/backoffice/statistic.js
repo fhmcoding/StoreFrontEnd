@@ -9,6 +9,7 @@ const baseUrl = `https://storeapi.scentavenue.shop/api/backoffice/statistic`;
 export const useStatisticStore = defineStore('statistic', () => {
 
     const summary = ref('')
+    const stock = ref('')
 
     
     const auth = useAuthStore()
@@ -32,5 +33,24 @@ export const useStatisticStore = defineStore('statistic', () => {
         }
     }
 
-    return { summary, getSummary }
+    async function getStockSummary(payload = {}){
+        try {
+            const response = await axios.get(
+                baseUrl+'/stock',
+                {
+                    params:payload,
+                    headers: {
+                        "Accept": "application/json",
+                        "Authorization": `Bearer ${auth.token}`
+                    }
+                },
+                
+            );
+            this.stock = response.data;
+        } catch (error) {
+            console.log('get stock error')
+        }
+    }
+
+    return { summary, stock, getSummary, getStockSummary }
 })

@@ -159,6 +159,7 @@ export default [
                         },
                         beforeEnter: [ hasPermission ],
                     },
+                    
                     {
                         path: '',
                         component: () => import('@/views/backoffice/products/List.vue'),
@@ -192,6 +193,14 @@ export default [
         path: '/backoffice/caisse/print/status',
         component: () => import('@/views/backoffice/Caisse/Status.vue'),
         beforeEnter: [isAuth],
+    },
+    {
+        path: '/backoffice/products/rapport',
+        component: () => import('@/views/backoffice/products/Rapport.vue'),
+        meta: {
+            permission: "stock-summary",
+        },
+        beforeEnter: [ hasPermission ],
     },
     {
         path: '/backoffice/caisse/print/:id',

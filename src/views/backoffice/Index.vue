@@ -98,6 +98,54 @@
             </dl>
         </div>
     </div>
+
+    <div class="py-5">
+        <div v-if='authModel.hasPermission("stock-summary") && statisticModel.summary != undefined'>
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-semibold leading-6 text-gray-900">
+                    Rapport de Stock
+                </h3>
+
+                  <RouterLink to="/backoffice/products/rapport" type="button" class="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary/50">Rapport </RouterLink>
+
+
+            </div>
+            <div class="mt-2">
+                <div class="overflow-hidden rounded-lg bg-white shadow grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
+                    <div  class="bg-white px-4 py-6 sm:px-6 lg:px-8">
+                        <p class="text-sm/6 font-medium text-gray-500">{{ 'Nombre de Produits' }}</p>
+                        <p class="mt-2 flex items-baseline gap-x-2">
+                            <span class="text-4xl font-semibold tracking-tight text-gray-900">{{ statisticModel.stock.stock_count }}</span>
+                            <span  class="text-sm text-gray-500">{{ '' }}</span>
+                        </p>
+                    </div>
+                    
+                    <div  class="bg-white px-4 py-6 sm:px-6 lg:px-8">
+                        <p class="text-sm/6 font-medium text-gray-500">{{ 'Prix d’Achat' }}</p>
+                        <p class="mt-2 flex items-baseline gap-x-2">
+                            <span class="text-4xl font-semibold tracking-tight text-gray-900">{{ statisticModel.stock.price }}</span>
+                            <span  class="text-sm text-gray-500">{{ 'DH' }}</span>
+                        </p>
+                    </div>
+                    <div  class="bg-white px-4 py-6 sm:px-6 lg:px-8">
+                        <p class="text-sm/6 font-medium text-gray-500">{{ 'Prix de Vente' }}</p>
+                        <p class="mt-2 flex items-baseline gap-x-2">
+                            <span class="text-4xl font-semibold tracking-tight text-gray-900">{{ statisticModel.stock.sale_price }}</span>
+                            <span  class="text-sm text-gray-500">{{ 'DH' }}</span>
+                        </p>
+                    </div>
+
+                    <div  class="bg-white px-4 py-6 sm:px-6 lg:px-8">
+                        <p class="text-sm/6 font-medium text-gray-500">{{ 'Valeur du Stock' }}</p>
+                        <p class="mt-2 flex items-baseline gap-x-2">
+                            <span class="text-4xl font-semibold tracking-tight  text-green-500">{{ statisticModel.stock.sale_price - statisticModel.stock.price }}</span>
+                            <span  class="text-sm text-gray-500">{{ 'DH' }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -123,6 +171,11 @@ onMounted( async() => {
         isLoading.value = false
     }
 
+    if(authModel.hasPermission('stock-summary')){
+        alertModel.clear()
+        await statisticModel.getStockSummary()
+        isLoading.value = false
+    }
 })
 
 watch(selectDateMethod, async() => {
@@ -149,5 +202,12 @@ function getParams() {
     }
 
 }
+
+const stats = [
+  { name: 'Number of deploys', value: '405' },
+  { name: 'Average deploy time', value: '3.65', unit: 'mins' },
+  { name: 'Number of servers', value: '3' },
+  { name: 'Success rate', value: '98.5%' },
+]
 
 </script>

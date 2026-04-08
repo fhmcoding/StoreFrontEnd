@@ -45,8 +45,12 @@ export const  useProductStore = defineStore('products',() => {
         try {
             this.pagination = ref('')
             this.products = [];
+            if(filters.pagination !== undefined && !filters.pagination ){
+                per_page.value = 1000
+            }
             const response = await axios.get(
-                baseUrl+'?include=brand,category'+'&per_page='+per_page.value+'&page='+page.value+ `${filters !== null ? '&filter[brand_id]=' + brand_id.value + '&filter[product_code]=' + filters.product_code + '&filter[name]=' +filters.name : ''} ` ,
+                baseUrl+'?include=brand,category'+'&per_page='+per_page.value+'&page='+page.value+ 
+                `  ${filters !== null ? '&filter[brand_id]=' + brand_id.value + '&filter[product_code]=' + filters.product_code + '&filter[name]=' +filters.name : ''}` + `${filters.stock_quantity ? '&stock_quantity=1' : ''}` ,
                 {
                     headers: {
                         "Accept": "application/json",
