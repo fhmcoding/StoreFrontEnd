@@ -17,14 +17,14 @@
                     <div  class="bg-white px-4 py-6 sm:px-6 lg:px-8">
                         <p class="text-sm/6 font-medium text-gray-500">{{ 'Prix d’Achat' }}</p>
                         <p class="mt-2 flex items-baseline gap-x-2">
-                            <span class="text-4xl font-semibold tracking-tight text-gray-900">{{ statisticModel.stock.price }}</span>
+                            <span class="text-4xl font-semibold tracking-tight text-gray-900">{{ price }}</span>
                             <span  class="text-sm text-gray-500">{{ 'DH' }}</span>
                         </p>
                     </div>
                     <div  class="bg-white px-4 py-6 sm:px-6 lg:px-8">
                         <p class="text-sm/6 font-medium text-gray-500">{{ 'Prix de Vente' }}</p>
                         <p class="mt-2 flex items-baseline gap-x-2">
-                            <span class="text-4xl font-semibold tracking-tight text-gray-900">{{ statisticModel.stock.sale_price }}</span>
+                            <span class="text-4xl font-semibold tracking-tight text-gray-900">{{ sale_price }}</span>
                             <span  class="text-sm text-gray-500">{{ 'DH' }}</span>
                         </p>
                     </div>
@@ -32,7 +32,7 @@
                     <div  class="bg-white px-4 py-6 sm:px-6 lg:px-8">
                         <p class="text-sm/6 font-medium text-gray-500">{{ 'Valeur du Stock' }}</p>
                         <p class="mt-2 flex items-baseline gap-x-2">
-                            <span class="text-4xl font-semibold tracking-tight  text-green-500">{{ statisticModel.stock.sale_price - statisticModel.stock.price }}</span>
+                            <span class="text-4xl font-semibold tracking-tight  " :class="{'text-red-500':(sale_price -  price) < 0,'text-green-500':(sale_price -  price) > 0}">{{sale_price -  price}}</span>
                             <span  class="text-sm text-gray-500">{{ 'DH' }}</span>
                         </p>
                     </div>
@@ -50,10 +50,10 @@
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr class="dark:border-gray-700">
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 dark:text-gray-300">Info</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Price</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Sale Price</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Stock Quantity</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Brand</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Prix d’Achat</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Prix ​​de vente</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Quantité en stock</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Marque</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
@@ -121,6 +121,10 @@
     const product_name = ref('');
     const brand_id = ref('');
     const isLoadingStatistic = ref(true)
+
+    const sale_price = ref(0);
+    const price = ref(0)
+
     function destroy(id){
         alertModel.clear()
         alertModel.remove("Remove Product", "Are you sure ?", id)
@@ -177,6 +181,15 @@
         await brandModel.getAll()
         isLoading.value = false
 
+        sale_price.value = productModel.products.reduce((sum, p) => {
+                return sum + (Number(p.sale_price) * Number(p.stock_quantity));
+            }, 0)
+        
+
+        price.value =  productModel.products.reduce((sum, product) => {
+                return sum + (Number(product.price) * Number(product.stock_quantity));
+            }, 0)
+        
         
     })
 

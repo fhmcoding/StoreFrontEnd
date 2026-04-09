@@ -196,6 +196,7 @@
             name:product_name.value,
             product_code: barcode.value
         })
+        brandModel.per_page = 10000
         await brandModel.getAll()
         isLoading.value = false
     })
