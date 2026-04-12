@@ -15,6 +15,8 @@ export const  useOrderStore = defineStore('orders',() => {
     const page = ref(1)
     const per_page = ref(10)
 
+    const created_at = ref('')
+
     
     const alert = useAlertStore()
     const auth = useAuthStore()
@@ -23,7 +25,10 @@ export const  useOrderStore = defineStore('orders',() => {
     async function getAll(user_id = null){
         try {
             const response = await axios.get(
-                baseUrl+'?include=customer,payments,productsCount'+'&per_page='+per_page.value+'&page='+page.value + `${user_id !== null ? '&filter[user_id]='+user_id : ''}`,
+                baseUrl+'?include=customer,payments,productsCount'+'&per_page='+per_page.value+'&page='+page.value + 
+                `${user_id !== null ? '&filter[user_id]='+user_id : ''}`+
+                `${created_at.value !== '' ? '&filter[created_at]='+created_at.value : ''}`
+                ,
                 {
                     headers: {
                         "Accept": "application/json",
@@ -35,6 +40,7 @@ export const  useOrderStore = defineStore('orders',() => {
             this.pagination = response.data.meta;
 
         } catch (error) {
+            console.log(error)
             console.log('get users error')
         }
     }
@@ -99,5 +105,5 @@ export const  useOrderStore = defineStore('orders',() => {
 
 
 
-    return {order, orders, pagination, page, per_page, getAll, getById,  destroy, update}
+    return {order, orders, created_at,pagination, page, per_page, getAll, getById,  destroy, update}
 });

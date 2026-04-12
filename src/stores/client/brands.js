@@ -11,7 +11,7 @@ export const  useBrandStore = defineStore('brands',() => {
 
     const pagination = ref('')
     const page = ref(1)
-    const per_page = ref(10)
+    const per_page = ref(100)
 
     
    

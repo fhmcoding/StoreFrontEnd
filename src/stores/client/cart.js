@@ -14,7 +14,7 @@ export const  useCartStore = defineStore('cart',() => {
         let total = 0;
         cart.value.forEach((e) => {
 
-            if(e.product.offers.length > 0){
+            if(e.product.offers !== undefined && e.product.offers.length > 0){
                 total += e.product.offers[0].pivot.price * e.quantity
             }else{ 
                 total += e.price * e.quantity

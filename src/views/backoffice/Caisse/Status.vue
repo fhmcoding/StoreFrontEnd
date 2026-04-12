@@ -65,6 +65,10 @@
                 <span>date : </span>
                 <span class="font-semibold" >{{formatDate(order.created_at) }}</span>
             </div>
+            <div class="flex items-center justify-between mt-1 px-4 sm:px-6 lg:px-8" v-if="auth.hasPermission('all-orders')">
+                <span>caisser : </span>
+                <span class="font-semibold">{{  order.caisser.first_name }} {{ order.caisser.last_name}}</span>
+            </div>
             <div class="flex items-center justify-between mt-1 px-4 sm:px-6 lg:px-8" v-if="order.caisser.first_name !== order.user.first_name">
                 <span>client : </span>
                 <span class="font-semibold">{{  order.user.first_name }} {{ order.user.last_name}}</span>
@@ -136,11 +140,13 @@ const totalCredit = ref(0)
 const total = ref(0);
 
 onMounted( async() => {
-    console.log("hello");
-    orderModel.per_page = 100
+    orderModel.per_page = 200
+    // orderModel.created_at = moment(new Date().toISOString().slice(0, 19).replace('T', ' ')).format('l')
+    orderModel.created_at = '2026-04-12'  
     await orderModel.getAll()
     
     total.value = orderModel.orders.reduce((sum, item) => { return sum + Number(item.total);}, 0) 
+
     orderModel.orders.forEach(order => {
         order.products.forEach(product => {
             totalArticles.value += product.pivot.quantity

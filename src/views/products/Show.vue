@@ -71,19 +71,21 @@
 
                         <div class="mt-3 border border-gray-200 rounded-md">
                            <div class="p-2 border-b flex items-center justify-between" v-for="(p,index) in productModel.product.products" :key="index"> 
-                                <span class="text-md">{{ productModel.product.name }} <span class="font-semibold">{{p.name}} </span>  </span>
+                                <span class="text-md">{{ productModel.product.name }} <span class="font-semibold">{{p.size}} </span>  </span>
                                 <div class="grid xl:flex lg:flex text-center items-center gap-2">
-                                    <div>
+                                    <!-- <div>
                                         <span class="font-bold text-primary" v-if="p.offers.length == 0">{{p.price }} DH</span> 
                                         <span v-else class="grid text-end">
                                             <span class="font-semibold text-gray-600 line-through">{{ p.price }}</span>
                                             <span class="font-bold text-primary" >{{p.offers[0].pivot.price }} DH</span> 
 
                                         </span>
-                                    </div>
+                                    </div> -->
+
+                                    <span class="font-bold text-primary" >{{p.price }} DH</span>
                                     <button
                                         type="button"
-                                        @click='cartModel.add({...productModel.product,...p,title: `${productModel.product.name} ${p.name}` })'  
+                                        @click='cartModel.add({...productModel.product,...p,title: `${productModel.product.name} ${p.size}` })'  
                                         v-show="!cartModel.inCart(p.product_code)" 
                                         class="flex max-w-xs text-sm flex-1 items-center justify-center rounded-md border border-transparent bg-primary py-2 px-8 xl:text-base lg:text-base font-medium text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
                                         
@@ -102,7 +104,7 @@
 
 
                         <div class="mt-6">
-                            <h3 class="sr-only">Description</h3>
+                            <h3 class=" font-semibold text-sm mb-2">Description</h3>
 
                             <div
                                 class="space-y-6 text-base text-gray-700"

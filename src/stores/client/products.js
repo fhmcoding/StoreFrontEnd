@@ -23,9 +23,9 @@ export const  useProductStore = defineStore('products',() => {
             const response = await axios.get(
                 baseUrl+'?include=brand,category'+'&per_page='+per_page.value+'&page='+page.value+'&'+payload
             );
-            this.products = response.data.data;
+            this.products = response.data;
             this.pagination = response.data.meta;
-
+            console.log(this.products)
         } catch (error) {
             console.log(error);
             console.log('get users error')
