@@ -60,7 +60,7 @@ export default [
                         path: 'edit/:id',
                         component: () => import('@/views/backoffice/clients/Edit.vue'),
                         meta: {
-                            permission: "user-edit",
+                            permission: "client-edit",
                         },
                         beforeEnter: [ hasPermission ],
                     },
@@ -68,7 +68,7 @@ export default [
                         path: 'create',
                         component: () => import('@/views/backoffice/clients/Create.vue'),
                         meta: {
-                            permission: "user-create",
+                            permission: "client-create",
                         },
                         beforeEnter: [ hasPermission ],
                     },
@@ -77,7 +77,7 @@ export default [
                         path: 'status/:id',
                         component: () => import('@/views/backoffice/clients/Status.vue'),
                         meta: {
-                            permission: "user-create",
+                            permission: "client-status",
                         },
                         beforeEnter: [ hasPermission ],
                     },
@@ -85,7 +85,7 @@ export default [
                         path: '',
                         component: () => import('@/views/backoffice/clients/List.vue'),
                         meta: {
-                            permission: "user-list",
+                            permission: "client-list",
                         },
                         beforeEnter: [ hasPermission ],
                     }
@@ -139,6 +139,10 @@ export default [
                     permission: "category-list",
                 },  
                 beforeEnter: [ hasPermission ],
+            },
+            {
+                path:'profile',
+                component:() => import('@/views/backoffice/profile/Index.vue'),
             },
             {
                 path: 'products',
