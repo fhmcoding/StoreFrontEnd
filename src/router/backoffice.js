@@ -103,7 +103,7 @@ export default [
                 path: 'payments',
                 component: () => import('@/views/backoffice/payments/List.vue'),
                 meta: {
-                    permission: "role-list",
+                    permission: "payment-list", 
                 },
                 beforeEnter: [ hasPermission ],
             },
