@@ -107,6 +107,14 @@ export default [
                 },
                 beforeEnter: [ hasPermission ],
             },
+            {
+                path: 'expenses',
+                component: () => import('@/views/backoffice/expenses/List.vue'),
+                meta: {
+                    permission: "expense-list", 
+                },
+                beforeEnter: [ hasPermission ],
+            },
             
             {
                 path: 'permissions',

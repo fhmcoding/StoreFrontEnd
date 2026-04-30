@@ -32,6 +32,12 @@
                 <span class="font-semibold">{{  total }}DH </span>
             </div>
 
+            <div class="flex items-center justify-between mt-1" v-if="total_expense > 0">
+                <span>Expense : </span>
+                <span class="font-semibold text-red-600">- {{  total_expense }}DH </span>
+            </div>
+
+
             <div class="flex items-center justify-between mt-1" v-if="totatPaidCash > 0">
                 <span>CASH : </span>
                 <span class="font-semibold">{{  totatPaidCash }} DH </span>
@@ -59,7 +65,24 @@
             
         </div>
 
+            <ul role="list"   class="divide-y divide-gray-200 px-4 sm:px-6 lg:px-8 " v-if="total_expense > 0">
+                <li v-for="item in expenseModel.expenses" :key="item.product_id" class="flex py-2 text-sm sm:items-center">
+                    <div class="grid flex-auto grid-cols-1 grid-rows-1 items-start gap-x-5 gap-y-3  sm:flex sm:items-center sm:gap-0">
+                        
+                        <div class="flex items-center gap-2 ">
+                            
+                            <div>
+                                <h3 class="font-medium text-gray-900">
+                                {{ item.reference }}
+                                </h3>
+                                <p class="mt-1 mx-4 text-black ">total : {{ item.amount }} DH</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         <hr />
+
         <div class="border-b border-gray-600 pb-2 mb-2 py-2" v-for="(order,index) in orderModel.orders" :key="index"> 
             <div class="flex items-center justify-between mt-1 px-4 sm:px-6 lg:px-8">
                 <span>date : </span>
@@ -121,6 +144,8 @@ import { ref,onMounted,  computed } from 'vue'
 import { IconLoader } from '@tabler/icons-vue';
 import { useRoute, useRouter } from 'vue-router'
 import { useOrderStore } from '@/stores/backoffice/orders'
+import { useExpenseStore } from '@/stores/backoffice/expenses'
+
 import { useAuthStore } from '@/stores/backoffice/auth'
 import moment from 'moment'
 
@@ -128,6 +153,7 @@ const isLoading  = ref(true)
 
 const route = useRoute()
 const orderModel = useOrderStore()
+const expenseModel = useExpenseStore()
 const auth = useAuthStore()
 const now = ref(new Date().toISOString().slice(0, 19).replace('T', ' '))
 const totalArticles = ref(0);
@@ -138,11 +164,11 @@ const totalPaidVirmo = ref(0)
 const totalPaidChique = ref(0)
 const totalCredit = ref(0)
 const total = ref(0);
+const total_expense = ref(0);
 
 onMounted( async() => {
     orderModel.per_page = 200
-    // orderModel.created_at = moment(new Date().toISOString().slice(0, 19).replace('T', ' ')).format('l')
-    orderModel.created_at = '2026-04-12'  
+    orderModel.created_at = moment().format('YYYY-MM-DD');
     await orderModel.getAll()
     
     total.value = orderModel.orders.reduce((sum, item) => { return sum + Number(item.total);}, 0) 
@@ -169,7 +195,15 @@ onMounted( async() => {
         totalCredit.value += order.total - order.payments.reduce((sum, item) => { return sum + Number(item.amount);}, 0)  
         
     });
+    expenseModel.per_page = 200
+    expenseModel.created_at = moment().format('YYYY-MM-DD');
+    
+    await expenseModel.getAll();
 
+
+    expenseModel.expenses.forEach(ex => {
+        total_expense.value += Number(ex.amount)
+    });
     isLoading.value = false
 
 

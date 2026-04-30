@@ -117,10 +117,15 @@
                     </button>
                 </div>
 
-                <routerLink v-if="auth.hasPermission('product-create')" to="/backoffice/products/create" type="button" class="text-primary border-primary border bg-white hover:bg-white/15 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
+                <!-- <routerLink v-if="auth.hasPermission('product-create')" to="/backoffice/products/create" type="button" class="text-primary border-primary border bg-white hover:bg-white/15 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
                     <PlusCircleIcon class="h-5 mr-1" aria-hidden="true" />
                     Add Product
-                </routerLink>
+                </routerLink> -->
+
+                <button v-if="auth.hasPermission('expense-create')" @click='addExpense = true' type="button" class="text-red-600 border-red-600 border bg-white hover:bg-white/15 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
+                    <PlusCircleIcon class="h-5 mr-1" aria-hidden="true" />
+                    Add Expense
+                </button>
             </div>
 
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-5"> 
@@ -324,6 +329,7 @@
                                             <option value="tpe" v-if="auth.user.payment_methods.tpe">tpe</option> 
                                             <option value="virement" v-if="auth.user.payment_methods.virement">virement</option>
                                             <option value="cheque" v-if='auth.user.payment_methods.cheque'>cheque</option>
+                                            <option value="credit" v-if=' auth.user.payment_methods.credit'>credit</option>
                                         </select>
                                         <ChevronDownIcon class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" aria-hidden="true" />
                                     </div>
@@ -369,6 +375,58 @@
             </Dialog>
         </TransitionRoot>
 
+        <TransitionRoot as="template" :show="addExpense">
+            <Dialog class="relative z-10" @close="addExpense = false ; expens_alert = false">
+                <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="" leave="ease-in duration-200" leave-from="" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
+                </TransitionChild>
+
+                <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to=" translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from=" translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                    <DialogPanel  class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                        <h6 class="text-center text-gray-500">Add Expense</h6>
+                       <div class="relative mb-5">
+                                    <label for="title" class="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-900">Amount</label>
+                                    <input type="text" v-model="expense.amount" name="title" id="title" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Amount" />
+                                </div>
+                    <div class="relative">
+                                    <label for="title" class="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-900">Reference</label>
+                                    <input type="text" v-model="expense.refernece" name="title" id="title" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Reference" />
+                                </div>
+
+<div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                            <button @click='addExpenseSubmit' type="button" class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2" >
+                                <span v-if="expenseSubmit" class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                                    <Cog6ToothIcon class="h-5 w-5 text-white" aria-hidden="true" />
+                                </span>
+                                Validate
+
+                            </button>
+                            <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-900 shadow-xs inset-ring-1 border border-red-700 inset-ring-red-300  hover:bg-red-50 sm:col-start-1 sm:mt-0" @click="addExpense = false ; expens_alert = false" ref="cancelButtonRef">Cancel</button>
+
+                            <div v-if='expens_alert' class="w-full">
+                                <div class="border-l-4 border-green-400 bg-green-100 w-full  p-4">
+  <div class="flex">
+    <div class="shrink-0">
+     
+    </div>
+    <div class="ml-3">
+      <p class="text-sm text-green-700">
+        Created successfully
+      </p>
+    </div>
+  </div>
+</div>
+                            </div>
+                        </div>
+                    </DialogPanel>
+                    </TransitionChild>
+                </div>
+                </div>
+            </Dialog>
+        </TransitionRoot>
+
     </div>
 
 
@@ -377,6 +435,7 @@
 
 <script setup>
 import { ref,onMounted, watch, computed } from 'vue'
+import { useExpenseStore } from '@/stores/backoffice/expenses'
 
 import { useCaisseStore } from "@/stores/backoffice/caisse";
 import { useBrandStore } from '@/stores/backoffice/brands'
@@ -397,12 +456,12 @@ const caisseModel = useCaisseStore()
 const brandModel = useBrandStore()
 const productModel = useProductStore()
 const clientModel = useClientStore()
-
+const expenseModel = useExpenseStore()
 const selectclientModel = ref(false)
-
+const addExpense = ref(false)
 const auth = useAuthStore()
 const alertModel = useAlertStore()
-
+const expenseSubmit = ref(false)
 const barcode = ref('');
 const product_name = ref('');
 const brand_id = ref('');
@@ -417,6 +476,12 @@ const payments = ref([{
     payment_method:'cash',
     amount:0
 }])
+const expens_alert = ref(false)
+
+const expense = ref({
+    amount:'',
+    refernece:''
+})
 
 const add = () => {
     payments.value = [...payments.value,{
@@ -465,7 +530,13 @@ const filteredProducts = computed(() => {
 
 const Logout = async () => {
     auth.logout()
-};
+}; 
+
+const addExpenseSubmit = async () => {
+    expenseSubmit.value = false;
+    const reponse = await  expenseModel.store(expense.value)
+     expens_alert.value = true;
+} 
 
 const checkout =async () => {
     // checkoutPopup.value = false
@@ -480,7 +551,9 @@ const checkout =async () => {
     }
 
     if(selected_payment_method.value == 'mixte'){
-        payload.payments = payments.value
+        
+        payload.payments = payments.value.filter((e) => e.payment_method != 'credit')
+        
     }
 
     const reponse = await caisseModel.checkout(payload)
