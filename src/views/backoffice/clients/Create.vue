@@ -64,6 +64,12 @@
                                     <!-- <span class="text-sm text-red-400">{{ errors.email }}</span> -->
                                 </div>
 
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="credit_inital" class="block text-sm font-medium text-gray-700 dark:text-gray-300">credit inital</label>
+                                    <input v-model="credit_inital" type="text" name="credit_inital" id="credit_inital" autocomplete="credit_inital" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    <!-- <span class="text-sm text-red-400">{{ errors.email }}</span> -->
+                                </div>
+
                                 
                                
 
@@ -117,7 +123,7 @@
         }),
     });
     
-    const [first_name,last_name, phone_number,  is_active] = form_create_user.useFieldModel(['first_name','last_name','phone_number','is_active']);
+    const [first_name,last_name, phone_number,  credit_inital,is_active] = form_create_user.useFieldModel(['first_name','last_name','phone_number','credit_inital','is_active']);
 
     /* Fields and validation end */
 

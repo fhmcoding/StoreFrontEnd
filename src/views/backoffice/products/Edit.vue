@@ -80,7 +80,7 @@
                                 </div>
                             </div>
 
-                            <div class=" border rounded-md p-2 mt-2 bg-gray-50"> 
+                            <div class=" border rounded-md p-2 mt-2 bg-gray-50" v-if="auth.hasPermission('UPDATE-STOCK-PRODUCT')"> 
                                 <div class="flex items-end gap-6 mb-2">
                                     <div class="w-2/5">
                                         <label for="reference" class="block text-sm font-medium text-gray-700 dark:text-gray-300">reference</label>
