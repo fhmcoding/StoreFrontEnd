@@ -10,6 +10,7 @@ export const useStatisticStore = defineStore('statistic', () => {
 
     const summary = ref('')
     const stock = ref('')
+    const credit = ref('')
 
     
     const auth = useAuthStore()
@@ -47,10 +48,34 @@ export const useStatisticStore = defineStore('statistic', () => {
                 
             );
             this.stock = response.data;
+            this.credit = response.data.creditClients
         } catch (error) {
             console.log('get stock error')
         }
     }
 
-    return { summary, stock, getSummary, getStockSummary }
+
+    async function getCreditSummary(payload = {}){
+        try {
+            const response = await axios.get(
+                baseUrl+'/credit',
+                {
+                    params:payload,
+                    headers: {
+                        "Accept": "application/json",
+                        "Authorization": `Bearer ${auth.token}`
+                    }
+                },
+                
+            );
+            this.credit = response.data;
+        } catch (error) {
+            console.log('get credit error')
+        }
+    }
+
+
+
+
+    return { summary, stock, credit, getSummary, getStockSummary, getCreditSummary }
 })

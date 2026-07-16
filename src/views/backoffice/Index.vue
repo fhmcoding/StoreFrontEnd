@@ -146,6 +146,115 @@
             </div>
         </div>
     </div>
+
+
+    <div class="py-5" v-if='authModel.hasPermission("client-credit") && statisticModel.summary != undefined'>
+        <div>
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-gray-900">
+                    Rapport Crédit Clients
+                </h3>
+
+                <RouterLink
+                    to="/backoffice/clients/rapport"
+                    class="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow hover:bg-primary/80"
+                >
+                    Rapport
+                </RouterLink>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+
+                <!-- Total Clients -->
+                <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="rounded-lg bg-blue-100 p-3">
+                            <UsersIcon class="h-7 w-7 text-blue-600" />
+                        </div>
+
+                        <span class="text-xs font-medium text-gray-400">
+                            Clients
+                        </span>
+                    </div>
+
+                    <p class="mt-6 text-sm font-medium text-gray-500">
+                        Total Clients
+                    </p>
+
+                    <p class="mt-2 text-4xl font-bold text-gray-900">
+                        {{ statisticModel.credit.length }}
+                    </p>
+                </div>
+
+                <!-- Total Orders -->
+                <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="rounded-lg bg-indigo-100 p-3">
+                            <ShoppingBagIcon class="h-7 w-7 text-indigo-600" />
+                        </div>
+
+                        <span class="text-xs font-medium text-gray-400">
+                            Commandes
+                        </span>
+                    </div>
+
+                    <p class="mt-6 text-sm font-medium text-gray-500">
+                        Total Commandes
+                    </p>
+
+                    <p class="mt-2 text-4xl font-bold text-gray-900">
+                        {{ totalOrders + creditInital}}
+                        <span class="text-lg font-medium text-gray-500">DH</span>
+                    </p>
+                </div>
+
+                <!-- Total Paid -->
+                <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="rounded-lg bg-green-100 p-3">
+                            <BanknotesIcon class="h-7 w-7 text-green-600" />
+                        </div>
+
+                        <span class="text-xs font-medium text-gray-400">
+                            Paiements
+                        </span>
+                    </div>
+
+                    <p class="mt-6 text-sm font-medium text-gray-500">
+                        Total Payé
+                    </p>
+
+                    <p class="mt-2 text-4xl font-bold text-green-600">
+                        {{ totalPayments }}
+                        <span class="text-lg font-medium text-gray-500">DH</span>
+                    </p>
+                </div>
+
+                <!-- Total Credit -->
+                <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="rounded-lg bg-red-100 p-3">
+                            <ExclamationTriangleIcon class="h-7 w-7 text-red-600" />
+                        </div>
+
+                        <span class="text-xs font-medium text-gray-400">
+                            Crédit
+                        </span>
+                    </div>
+
+                    <p class="mt-6 text-sm font-medium text-gray-500">
+                        Crédit Restant
+                    </p>
+
+                    <p class="mt-2 text-4xl font-bold text-red-600">
+                        {{ totalOrders + creditInital -  totalPayments}}
+                        <span class="text-lg font-medium text-gray-500">DH</span>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -156,13 +265,21 @@ import { useAuthStore } from '@/stores/backoffice/auth'
 import { ref,onMounted, watch } from "vue";    
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/vue/20/solid";
 import { PhoneIcon, ShoppingCartIcon, TruckIcon, ArchiveBoxXMarkIcon } from '@heroicons/vue/24/outline'
-
+import {
+    UsersIcon,
+    ShoppingBagIcon,
+    BanknotesIcon,
+    ExclamationTriangleIcon
+} from '@heroicons/vue/24/outline'
 
 const statisticModel = useStatisticStore()
 const alertModel = useAlertStore()
 const authModel = useAuthStore()
 const isLoading = ref(true)
 const selectDateMethod = ref('TODAY')
+const totalOrders = ref(0)
+const totalPayments = ref(0)
+const creditInital =ref(0)
 
 onMounted( async() => {
     if(authModel.hasPermission('statistic-summary')){
@@ -175,6 +292,27 @@ onMounted( async() => {
         alertModel.clear()
         await statisticModel.getStockSummary()
         isLoading.value = false
+    }
+
+    if(authModel.hasPermission('client-credit')){
+        creditInital.value = statisticModel.credit.reduce((creditTotal, credit) => {
+                return creditTotal + Number(credit.credit_inital)
+            }, 0)
+
+        totalOrders.value = statisticModel.credit.reduce((clientTotal, client) => {
+            return clientTotal + client.orders.reduce((orderTotal, order) => {
+                return orderTotal + Number(order.total)
+            }, 0)
+        }, 0)
+
+        totalPayments.value = statisticModel.credit.reduce((clientTotalPayment, client) => {
+            return clientTotalPayment + client.payments.reduce((paymentTotal, payment) => {
+                return paymentTotal + Number(payment.amount)
+            }, 0)
+        }, 0)
+
+
+        
     }
 })
 

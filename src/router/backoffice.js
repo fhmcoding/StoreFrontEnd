@@ -214,6 +214,14 @@ export default [
         },
         beforeEnter: [ hasPermission ],
     },
+     {
+        path: '/backoffice/clients/rapport',
+        component: () => import('@/views/backoffice/clients/Rapport.vue'),
+        meta: {
+            permission: "client-credit",
+        },
+        beforeEnter: [ hasPermission ],
+    },
     {
         path: '/backoffice/caisse/print/:id',
         component: () => import('@/views/backoffice/Caisse/Print.vue'),
