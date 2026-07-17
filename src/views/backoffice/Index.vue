@@ -255,6 +255,87 @@
             </div>
         </div>
     </div>
+
+
+
+        <div class="overflow-hidden w-full lg:w-1/2 bg-white shadow rounded-lg " v-if='authModel.hasPermission("status-global")'>
+
+            <div class="mb-2 overflow-hidden bg-gradient-to-r from-cyan-400 to-blue-600 px-5 py-3  shadow-sm">
+                <h1 class="text-white text-lg font-semibold italic">Etat Global</h1>
+            </div>
+            <div class="px-4 sm:px-6 lg:px-8 pb-6 pt-4">
+                <div class="mb-4">
+                    <label for="periode" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Période :
+                    </label>
+                    <select
+                        id="periode"
+                        v-model="periode"
+                        @change="onPeriodeChange"
+                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:bg-gray-700 dark:text-gray-300 dark:border-0"
+                    >
+                        <option value="today">Aujourd'hui</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="month">Ce mois</option>
+                        <option value="custom">Personnalisé</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label for="from" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            de :
+                        </label>
+                        <input
+                            id="from"
+                            v-model="from"
+                            type="date"
+                            :disabled="periode !== 'custom'"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:bg-gray-700 dark:text-gray-300 dark:border-0 disabled:opacity-60"
+                        >
+                    </div>
+                    <div>
+                        <label for="to" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            à :
+                        </label>
+                        <input
+                            id="to"
+                            v-model="to"
+                            type="date"
+                            :disabled="periode !== 'custom'"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:bg-gray-700 dark:text-gray-300 dark:border-0 disabled:opacity-60"
+                        >
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button
+                        type="button"
+                        @click="printReport('sales')"
+                        class="flex-1 rounded-lg bg-cyan-400 hover:bg-cyan-500 text-white font-medium text-sm px-5 py-3 text-center shadow-sm transition-colors"
+                    >
+                        Imprimer Rapport ventes
+                    </button>
+
+                    <button
+                        type="button"
+                        @click="printReport('charge')"
+                        class="flex-1 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white font-medium text-sm px-5 py-3 text-center shadow-sm transition-colors"
+                    >
+                        Imprimer Rapport Charge
+                    </button>
+
+                    <button
+                        type="button"
+                        @click="printReport('global')"
+                        class="flex-1 rounded-lg bg-indigo-700 hover:bg-indigo-800 text-white font-medium text-sm px-5 py-3 text-center shadow-sm transition-colors"
+                    >
+                        Imprimer Etat global
+                    </button>
+                </div>
+            </div>
+
+        </div>
 </template>
 
 <script setup>
@@ -263,6 +344,9 @@ import { useStatisticStore } from '@/stores/backoffice/statistic'
 import { useAlertStore } from '@/stores/alert'
 import { useAuthStore } from '@/stores/backoffice/auth'
 import { ref,onMounted, watch } from "vue";    
+import { useRouter } from 'vue-router'
+import moment from 'moment'
+
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/vue/20/solid";
 import { PhoneIcon, ShoppingCartIcon, TruckIcon, ArchiveBoxXMarkIcon } from '@heroicons/vue/24/outline'
 import {
@@ -280,6 +364,57 @@ const selectDateMethod = ref('TODAY')
 const totalOrders = ref(0)
 const totalPayments = ref(0)
 const creditInital =ref(0)
+const router = useRouter()
+
+const periode = ref('today')
+const from = ref(moment().format('YYYY-MM-DD'))
+const to = ref(moment().format('YYYY-MM-DD'))
+const type = ref('')
+
+function onPeriodeChange() {
+    if (periode.value === 'today') {
+        from.value = moment().format('YYYY-MM-DD')
+        to.value = moment().format('YYYY-MM-DD')
+    } else if (periode.value === 'week') {
+        from.value = moment().startOf('week').format('YYYY-MM-DD')
+        to.value = moment().endOf('week').format('YYYY-MM-DD')
+    } else if (periode.value === 'month') {
+        from.value = moment().startOf('month').format('YYYY-MM-DD')
+        to.value = moment().endOf('month').format('YYYY-MM-DD')
+    }
+}
+
+function printReport(t) {
+    console.log(t)
+    const query = {
+        from: from.value,
+        to: to.value,
+    }
+    
+    type.value = t ;
+
+   
+   
+
+    if(type.value == 'charge'){
+        console.log('charge')
+        const routeData1 = router.resolve({ path: '/backoffice/status_charge/print', query })
+        window.open(routeData1.href, '_blank')
+    }
+
+    if(type.value == 'sales'){
+        const routeData2 = router.resolve({ path: '/backoffice/status_sales/print', query })
+        window.open(routeData2.href, '_blank')
+    }
+
+    if(type.value == 'global'){
+        const routeData3 = router.resolve({ path: '/backoffice/status_global/print', query })
+        window.open(routeData3.href, '_blank')
+    }
+
+    
+    
+}
 
 onMounted( async() => {
     if(authModel.hasPermission('statistic-summary')){

@@ -8,7 +8,9 @@ const baseUrl = `https://storeapi.scentavenue.shop/api/backoffice/expenses`;
 
 export const  useExpenseStore = defineStore('expenses',() => {
 
-        const created_at = ref('')
+    const created_at = ref('')
+    const created_from = ref('')
+    const created_to = ref('')
 
     const expenses = ref([])    
 
@@ -26,7 +28,9 @@ export const  useExpenseStore = defineStore('expenses',() => {
         try {
             const response = await axios.get(
                 baseUrl+`?include=user`+`&per_page=`+per_page.value+`&page=`+page.value + 
-                 `${created_at.value !== '' ? '&filter[created_at]='+created_at.value : ''}`,
+                `${created_at.value !== '' ? '&filter[created_at]='+created_at.value : ''}`+
+                `${created_from.value !== '' ? '&filter[created_from]=' + created_from.value : ''}` +
+                `${created_to.value !== '' ? '&filter[created_to]=' + created_to.value : ''}`,
                 {
                     headers: {
                         "Accept": "application/json",
@@ -62,5 +66,5 @@ export const  useExpenseStore = defineStore('expenses',() => {
 
 
     
-    return {expenses, pagination, page, per_page, created_at, getAll, store}
+    return {expenses, pagination, page, per_page, created_at, created_from, created_to, getAll, store}
 });

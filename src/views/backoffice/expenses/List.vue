@@ -53,7 +53,7 @@
                             Total  {{ item.amount }}
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-gray-500">
-                              {{ item.user.first_name }} {{  item.user.last_name }}
+                            <div v-if="item.user != undefined">  {{ item.user.first_name }} {{  item.user.last_name }}</div>
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {{ formatDate(item.created_at) }}

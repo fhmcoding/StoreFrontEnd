@@ -22,6 +22,14 @@ export default [
                 component: () => import('@/views/backoffice/Index.vue'),
                 beforeEnter: [],
             },
+
+            {
+                path: 'status_global',
+                component: () => import('@/views/backoffice/status/Index.vue'),
+                beforeEnter: [],
+            },
+
+            
             
             
             {
@@ -200,6 +208,21 @@ export default [
                 beforeEnter: [ hasPermission ],
             },
         ]
+    },
+    {
+        path: '/backoffice/status_global/print',
+        component: () => import('@/views/backoffice/status/Global.vue'),
+        beforeEnter: [isAuth],
+    },
+    {
+        path: '/backoffice/status_sales/print',
+        component: () => import('@/views/backoffice/status/Sales.vue'),
+        beforeEnter: [isAuth],
+    },
+    {
+        path: '/backoffice/status_charge/print',
+        component: () => import('@/views/backoffice/status/Charge.vue'),
+        beforeEnter: [isAuth],
     },
     {
         path: '/backoffice/caisse/print/status',

@@ -17,6 +17,9 @@ export const  useOrderStore = defineStore('orders',() => {
 
     const created_at = ref('')
 
+    const created_from = ref('')
+    const created_to = ref('')
+    
     
     const alert = useAlertStore()
     const auth = useAuthStore()
@@ -27,8 +30,10 @@ export const  useOrderStore = defineStore('orders',() => {
             const response = await axios.get(
                 baseUrl+'?include=customer,payments,productsCount'+'&per_page='+per_page.value+'&page='+page.value + 
                 `${user_id !== null ? '&filter[user_id]='+user_id : ''}`+
-                `${created_at.value !== '' ? '&filter[created_at]='+created_at.value : ''}`
-                ,
+                `${created_at.value !== '' ? '&filter[created_at]='+created_at.value : ''}`+
+                `${created_from.value !== '' ? '&filter[created_from]=' + created_from.value : ''}` +
+                `${created_to.value !== '' ? '&filter[created_to]=' + created_to.value : ''}`,
+                
                 {
                     headers: {
                         "Accept": "application/json",
@@ -105,5 +110,5 @@ export const  useOrderStore = defineStore('orders',() => {
 
 
 
-    return {order, orders, created_at,pagination, page, per_page, getAll, getById,  destroy, update}
+    return {order, orders, created_at, created_from, created_to,pagination, page, per_page, getAll, getById,  destroy, update}
 });
