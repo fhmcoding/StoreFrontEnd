@@ -106,10 +106,7 @@
                 <div class="overflow-hidden">
                     <div class="bg-white dark:bg-gray-800 py-2 px-3 sm:px-6">
                         <div class="grid grid-cols-6 gap-6">
-                            <div class="col-span-6 sm:col-span-3">
-                                <label for="current_password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current password</label>
-                                <input v-model="current_password" type="password" name="current_password" id="current_password" placeholder="Enter current password" class="dark:bg-gray-700 dark:text-gray-300 dark:border-0 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
+                           
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="new_password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">New Password</label>
@@ -186,7 +183,6 @@
         account.value = false
         security.value = true
 
-        current_password.value = ''
         new_password.value = ''
         confirm_new_password.value = ''
     }
@@ -208,13 +204,12 @@
     /* Fields and validation change password start */
     const form_change_password = useForm({
         validationSchema: yup.object({
-            current_password: yup.string().min(8).required(),
             new_password: yup.string().min(8).required(),
             confirm_new_password: yup.string().min(8).required(),
         }),
     });
 
-    const [current_password, new_password, confirm_new_password] = form_change_password.useFieldModel(['current_password', 'new_password', 'confirm_new_password']);
+    const [ new_password, confirm_new_password] = form_change_password.useFieldModel(['new_password', 'confirm_new_password']);
     /* Fields and validation change password end */
 
     onMounted( async() => {
@@ -235,7 +230,6 @@
         delete values['confirm_new_password']
         let result = await auth.updatePassword(values)
         if(result.status){
-            current_password.value = ''
             new_password.value = ''
             confirm_new_password.value = ''
         }
